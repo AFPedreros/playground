@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  Navbar,
+  Navbar as NextUINavbar,
   NavbarBrand,
   NavbarMenuToggle,
   NavbarMenuItem,
@@ -16,10 +16,14 @@ import { Icons } from "@/components/icons";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import NextLink from "next/link";
 
-export function Header() {
+export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <NextUINavbar
+      isBordered
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -72,6 +76,6 @@ export function Header() {
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>
-    </Navbar>
+    </NextUINavbar>
   );
 }

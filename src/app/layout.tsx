@@ -1,8 +1,7 @@
-import "@/styles/globals.css";
 import { Providers } from "@/app/providers";
+import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { Header } from "@/components/header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +23,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
         <Providers>
-          <Header />
           {children}
           <div className="h-screen"></div>
         </Providers>

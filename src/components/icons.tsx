@@ -11,10 +11,10 @@ export const Icons = {
   ),
   sunOutline: (props: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
-      <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <g fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="12" cy="12" r="5" />
         <path
-          stroke-linecap="round"
+          strokeLinecap="round"
           d="M12 2v2m0 16v2M4 12H2m20 0h-2m-.222-7.777l-2.222 2.031M4.222 4.223l2.222 2.031m0 11.302l-2.222 2.222m15.556-.001l-2.222-2.222"
         />
       </g>
@@ -33,14 +33,22 @@ export const Icons = {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="1.5"
+        strokeLinecap="round"
+        strokeWidth="1.5"
       >
         <path
-          stroke-linejoin="round"
+          strokeLinejoin="round"
           d="M2.001 11.999h14m0 0l-3.5-3m3.5 3l-3.5 3"
         />
         <path d="M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121C20.242 22 18.829 22 16 22h-1c-2.828 0-4.242 0-5.121-.879c-.768-.768-.865-1.946-.877-4.121" />
+      </g>
+    </svg>
+  ),
+  searchOutline: (props: IconProps) => (
+    <svg role="img" viewBox="0 0 24 24" {...props}>
+      <g fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="11.5" cy="11.5" r="9.5" />
+        <path strokeLinecap="round" d="M18.5 18.5L22 22" />
       </g>
     </svg>
   ),

@@ -17,13 +17,13 @@ export function ThemeSwitcher() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  if (!mounted) return <Button radius="full" variant="light" isIconOnly  />;
+  if (!mounted) return <Button radius="full" variant="light" isIconOnly />;
 
   return (
     <>
       <Button onClick={toggleTheme} radius="full" variant="light" isIconOnly>
-        {theme === "dark" && <Icons.filledSun className="h-4 w-4" />}
-        {theme === "light" && <Icons.filledMoon className="h-4 w-4" />}
+        {theme === "dark" && <Icons.sunOutline className="h-6 w-6" />}
+        {theme === "light" && <Icons.moonOutline className="h-6 w-6" />}
       </Button>
     </>
   );

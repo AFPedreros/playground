@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { Providers } from "@/app/providers";
 
 import { Inter } from "next/font/google";
+import { Header } from "@/components/header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <div className="h-screen"></div>
+        </Providers>
       </body>
     </html>
   );

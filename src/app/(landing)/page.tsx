@@ -1,9 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
-import Link from "next/link";
 
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@nextui-org/button";
 
 export default async function Home() {
@@ -18,7 +16,6 @@ export default async function Home() {
           Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
         </h1>
         <Button color="primary">Click me</Button>
-        <ThemeSwitcher />
         <div className="flex flex-col items-center gap-2">
           <p className="text-2xl ">
             {hello ? hello.greeting : "Loading tRPC query..."}

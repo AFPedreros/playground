@@ -24,17 +24,22 @@ export function Navbar() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
-      <NavbarContent className="sm:hidden" justify="start">
+      <NavbarContent className="pr-3 sm:hidden" justify="center">
+        <NavbarBrand>
+          <NextLink href="/">
+            {/* <AcmeLogo /> */}
+            <p className="font-bold text-inherit">LMS</p>
+          </NextLink>
+        </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="sm:hidden" justify="end">
+        <NavbarItem>
+          <ThemeSwitcher />
+        </NavbarItem>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
-      </NavbarContent>
-
-      <NavbarContent className="pr-3 sm:hidden" justify="center">
-        <NavbarBrand>
-          {/* <AcmeLogo /> */}
-          <p className="font-bold text-inherit">LMS</p>
-        </NavbarBrand>
       </NavbarContent>
 
       <NavbarBrand className="hidden sm:flex">
@@ -52,7 +57,7 @@ export function Navbar() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end">
+      <NavbarContent className="hidden sm:flex" justify="end">
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
@@ -74,6 +79,17 @@ export function Navbar() {
           <Link className="w-full" href="/explorar" size="lg">
             Explorar cursos
           </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Button
+            as={Link}
+            color="primary"
+            href="#"
+            variant="flat"
+            startContent={<Icons.loginOutline className="h-6 w-6" />}
+          >
+            Inicia sesión
+          </Button>
         </NavbarMenuItem>
       </NavbarMenu>
     </NextUINavbar>

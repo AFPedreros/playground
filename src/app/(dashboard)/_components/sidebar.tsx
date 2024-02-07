@@ -23,7 +23,11 @@ export function Sidebar() {
     >
       {(route) => (
         <ListboxItem
-          className={cn(route.path === pathname ? "bg-secondary" : "")}
+          className={cn(
+            route.path === pathname
+              ? "bg-secondary text-background dark:text-foreground"
+              : "",
+          )}
           key={route.path}
           color={route.path === pathname ? "secondary" : "default"}
           startContent={<route.icon className="h-6 w-6" />}

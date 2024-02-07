@@ -44,7 +44,7 @@ export function Navbar() {
             variant="flat"
             startContent={<Icons.loginOutline className="h-6 w-6" />}
           >
-            Login
+            Inicia sesión
           </Button>
         </NavbarItem>
       </NavbarContent>

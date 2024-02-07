@@ -37,7 +37,7 @@ export function Navbar() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarBrand className="hidden  sm:flex">
+      <NavbarBrand className="hidden sm:flex">
         <NextLink href="/">
           {/* <AcmeLogo /> */}
           <p className="font-bold text-inherit">LMS</p>
@@ -46,8 +46,8 @@ export function Navbar() {
 
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarItem>
-          <Link href="/dashboard" underline="hover">
-            Dashboard
+          <Link href="/explorar" underline="hover">
+            Explorar cursos
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -64,7 +64,7 @@ export function Navbar() {
             variant="flat"
             startContent={<Icons.loginOutline className="h-6 w-6" />}
           >
-            Login
+            Inicia sesión
           </Button>
         </NavbarItem>
       </NavbarContent>

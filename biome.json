@@ -28,9 +28,6 @@
         "noConsoleLog": "warn",
         "noExplicitAny": "warn"
       },
-      "a11y": {
-        "noSvgWithoutTitle": "off"
-      },
       "nursery": {
         "noUnusedImports": "warn"
       }

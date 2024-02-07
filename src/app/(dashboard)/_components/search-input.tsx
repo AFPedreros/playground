@@ -23,7 +23,7 @@ export function SearchInput({
       radius={radius}
       className={className}
       type="text"
-      placeholder="Search for a course"
+      placeholder="Busca un tema o curso"
       startContent={<Icons.searchOutline className="h-6 w-6" />}
     />
   );

@@ -1,14 +1,14 @@
+import { Icons } from "@/components/icons";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
+  Button,
+  Link,
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
-  Button,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import { Icons } from "@/components/icons";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { SearchInput } from "./search-input";
 
 export function Navbar() {

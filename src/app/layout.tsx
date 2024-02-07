@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <Providers>
           {children}
-          <div className="h-screen"></div>
+          <div className="h-screen" />
         </Providers>
       </body>
     </html>

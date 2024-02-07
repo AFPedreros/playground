@@ -7,17 +7,17 @@ import { usePathname } from "next/navigation";
 export function AdminButton() {
   const pathname = usePathname();
 
-  const path = pathname?.includes("/admin") ? "/explorar" : "/admin/agregar";
+  const isAdminPath = pathname?.includes("/admin");
 
   return (
     <Button
       as={Link}
       color="secondary"
-      href={path}
+      href={isAdminPath ? "/explorar" : "/admin/temas"}
       variant="ghost"
-      startContent={<Icons.adminOutline className="h-6 w-6" />}
+      startContent={isAdminPath ?<Icons.circleArrowLeftOutline className="h-6 w-6" />:<Icons.adminOutline className="h-6 w-6" />}
     >
-      Admin
+      {isAdminPath ? "Volver" : "Admin"}
     </Button>
   );
 }

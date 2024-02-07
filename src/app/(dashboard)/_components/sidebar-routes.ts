@@ -25,8 +25,8 @@ export const userRoutes = [
 
 export const adminRoutes = [
   {
-    icon: Icons.addOutline,
-    name: "Agregar",
-    path: "/admin/agregar",
+    icon: Icons.checkListOutline,
+    name: "Temas",
+    path: "/admin/temas",
   },
 ];

@@ -71,8 +71,8 @@ export function Navbar() {
 
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link className="w-full" href="#" size="lg">
-            Dahsboard
+          <Link className="w-full" href="/explorar" size="lg">
+            Explorar cursos
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>

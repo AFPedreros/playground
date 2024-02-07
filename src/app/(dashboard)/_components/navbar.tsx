@@ -9,11 +9,12 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 import NextLink from "next/link";
+import { AdminButton } from "./admin-button";
 import { SearchInput } from "./search-input";
 
 export function Navbar() {
   return (
-    <NextUINavbar isBordered>
+    <NextUINavbar maxWidth="full" isBordered>
       <NavbarBrand>
         <NextLink href="/">
           {/* <AcmeLogo /> */}
@@ -33,6 +34,9 @@ export function Navbar() {
       </NavbarContent>
 
       <NavbarContent justify="end">
+        <NavbarItem>
+          <AdminButton />
+        </NavbarItem>
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>

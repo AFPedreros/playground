@@ -22,10 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <Providers>
-          {children}
-          <div className="h-screen" />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

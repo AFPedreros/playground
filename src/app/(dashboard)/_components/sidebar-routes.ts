@@ -30,8 +30,18 @@ export const userRoutes = [
 
 export const adminRoutes = [
   {
-    icon: Icons.checkListOutline,
+    icon: Icons.routeOutline,
+    name: "Rutas",
+    path: "/admin/rutas",
+  },
+  {
+    icon: Icons.bookOutline,
     name: "Temas",
     path: "/admin/temas",
+  },
+  {
+    icon: Icons.videoOutline,
+    name: "Tutoriales",
+    path: "/admin/tutoriales",
   },
 ];

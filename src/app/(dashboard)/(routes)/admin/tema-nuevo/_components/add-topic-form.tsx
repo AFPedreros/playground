@@ -1,8 +1,11 @@
 "use client";
 
+import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
@@ -15,6 +18,7 @@ const formSchema = z.object({
 
 export function AddTopicForm() {
   const router = useRouter();
+  const { mutate, isLoading } = api.topics.create.useMutation({});
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
@@ -31,14 +35,16 @@ export function AddTopicForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-    // try {
-    //   const response = await axios.post("/api/topics", values);
-    //   router.push(`/admin/temas/${response.data.id}`);
-    //   toast.success("Tema creado correctamente.");
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error("Ocurrió un error al crear el tema.");
-    // }
+    try {
+      // const response = await axios.post("/api/topics", values);
+      // router.push(`/admin/temas/${response.data.id}`);
+      const response = await mutate(values);
+      console.log(response);
+      toast.success("Tema creado correctamente.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Ocurrió un error al crear el tema.");
+    }
     reset();
   };
 

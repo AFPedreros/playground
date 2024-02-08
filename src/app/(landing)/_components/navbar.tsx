@@ -1,23 +1,26 @@
 "use client";
 
+import { AvatarButton } from "@/components/avatar-button";
 import { Icons } from "@/components/icons";
+import { MobileNavbar } from "@/components/mobile-navbar";
+import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   Button,
   Link,
   Navbar as NextUINavbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
 } from "@nextui-org/react";
-import NextLink from "next/link";
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export function Navbar() {
+  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const user = session?.user;
   return (
     <NextUINavbar
       className="fixed"
@@ -26,29 +29,10 @@ export function Navbar() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
-      <NavbarContent className="pr-3 sm:hidden" justify="center">
-        <NavbarBrand>
-          <NextLink href="/">
-            {/* <AcmeLogo /> */}
-            <p className="font-bold text-inherit">Roadmap</p>
-          </NextLink>
-        </NavbarBrand>
-      </NavbarContent>
+      <MobileNavbar user={user as User} isMenuOpen={isMenuOpen} />
 
-      <NavbarContent className="sm:hidden" justify="end">
-        <NavbarItem>
-          <ThemeSwitcher />
-        </NavbarItem>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        />
-      </NavbarContent>
-
-      <NavbarBrand className="hidden sm:flex">
-        <NextLink href="/">
-          {/* <AcmeLogo /> */}
-          <p className="font-bold text-inherit">Roadmap</p>
-        </NextLink>
+      <NavbarBrand className="hidden sm:flex" href="/">
+        <p className="font-bold text-inherit">Roadmap</p>
       </NavbarBrand>
 
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
@@ -63,41 +47,27 @@ export function Navbar() {
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
-        <NavbarItem>
-          <Button
-            className="text-white"
-            as={Link}
-            color="primary"
-            href="#"
-            variant="shadow"
-            startContent={<Icons.loginOutline className="h-6 w-6" />}
-            radius="full"
-          >
-            Inicia sesión
-          </Button>
-        </NavbarItem>
+        {!user && (
+          <NavbarItem>
+            <Button
+              className="text-white"
+              as={Link}
+              color="primary"
+              href="#"
+              variant="shadow"
+              startContent={<Icons.loginOutline className="h-6 w-6" />}
+              radius="full"
+            >
+              Inicia sesión
+            </Button>
+          </NavbarItem>
+        )}
+        {!!user && (
+          <NavbarItem>
+            <AvatarButton />
+          </NavbarItem>
+        )}
       </NavbarContent>
-
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link className="w-full" href="/inicio" size="lg">
-            Aprende React
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Button
-            className="text-white"
-            as={Link}
-            color="primary"
-            href="#"
-            variant="shadow"
-            startContent={<Icons.loginOutline className="h-6 w-6" />}
-            radius="full"
-          >
-            Inicia sesión
-          </Button>
-        </NavbarMenuItem>
-      </NavbarMenu>
     </NextUINavbar>
   );
 }

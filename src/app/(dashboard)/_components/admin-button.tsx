@@ -12,10 +12,16 @@ export function AdminButton() {
   return (
     <Button
       as={Link}
-      color="secondary"
+      color="default"
       href={isAdminPath ? "/explorar" : "/admin/temas"}
       variant="ghost"
-      startContent={isAdminPath ?<Icons.circleArrowLeftOutline className="h-6 w-6" />:<Icons.adminOutline className="h-6 w-6" />}
+      startContent={
+        isAdminPath ? (
+          <Icons.circleArrowLeftOutline className="h-6 w-6" />
+        ) : (
+          <Icons.adminOutline className="h-6 w-6" />
+        )
+      }
     >
       {isAdminPath ? "Volver" : "Admin"}
     </Button>

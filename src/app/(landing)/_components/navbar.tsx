@@ -53,7 +53,7 @@ export function Navbar() {
               className="text-white"
               as={Link}
               color="primary"
-              href="#"
+              href="/inicio-sesion"
               variant="shadow"
               startContent={<Icons.loginOutline className="h-6 w-6" />}
               radius="full"

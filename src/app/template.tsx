@@ -12,7 +12,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
       variants={variants}
       initial="hidden"
       animate="enter"
-      exit="hidden"
       transition={{ type: "linear", duration: 0.4 }}
     >
       {children}

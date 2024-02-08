@@ -43,7 +43,7 @@ export function Navbar() {
 
       <NavbarContent justify="end">
         <NavbarItem className="hidden sm:flex">
-          <AdminButton />
+          {user?.role === "ADMIN" && <AdminButton />}
         </NavbarItem>
         <NavbarItem>
           <ThemeSwitcher />

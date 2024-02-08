@@ -18,7 +18,7 @@ export function Navbar() {
       <NavbarBrand>
         <NextLink href="/">
           {/* <AcmeLogo /> */}
-          <p className="font-bold text-inherit">LMS</p>
+          <p className="font-bold text-inherit">Roadmap</p>
         </NextLink>
       </NavbarBrand>
 
@@ -42,11 +42,13 @@ export function Navbar() {
         </NavbarItem>
         <NavbarItem>
           <Button
+            className="text-white"
             as={Link}
             color="primary"
             href="#"
-            variant="flat"
+            variant="shadow"
             startContent={<Icons.loginOutline className="h-6 w-6" />}
+            radius="full"
           >
             Inicia sesión
           </Button>

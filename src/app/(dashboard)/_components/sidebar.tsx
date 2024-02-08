@@ -14,6 +14,7 @@ export function Sidebar() {
     <Listbox
       className="p-0"
       items={routes}
+      variant="flat"
       aria-label="Dashboard Sidebar"
       disallowEmptySelection
       selectionMode="single"
@@ -25,12 +26,12 @@ export function Sidebar() {
         <ListboxItem
           className={cn(
             route.path === pathname
-              ? "bg-secondary text-background dark:text-foreground"
+              ? "bg-primary/20 text-background dark:text-foreground"
               : "",
           )}
           key={route.path}
-          color={route.path === pathname ? "secondary" : "default"}
-          startContent={<route.icon className="h-6 w-6" />}
+          color={route.path === pathname ? "primary" : "default"}
+          startContent={<route.icon className="h-6 w-6 text-primary" />}
           href={route.path}
         >
           {route.name}

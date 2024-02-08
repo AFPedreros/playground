@@ -8,7 +8,7 @@ export default function AdminTopicPage() {
         href="./tema-nuevo"
         as={Link}
         color="primary"
-        endContent={<Icons.addOutline className="h-6 w-6" />}
+        startContent={<Icons.addOutline className="h-6 w-6" />}
       >
         Nuevo tema
       </Button>

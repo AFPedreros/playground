@@ -14,7 +14,12 @@ import { SearchInput } from "./search-input";
 
 export function Navbar() {
   return (
-    <NextUINavbar maxWidth="full" isBordered>
+    <NextUINavbar
+      className="fixed"
+      position="static"
+      maxWidth="full"
+      isBordered
+    >
       <NavbarBrand>
         <NextLink href="/">
           {/* <AcmeLogo /> */}

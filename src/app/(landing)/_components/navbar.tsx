@@ -20,6 +20,8 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <NextUINavbar
+      className="fixed"
+      position="static"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}

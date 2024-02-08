@@ -3,7 +3,9 @@ import { Button, Link } from "@nextui-org/react";
 
 export default function AdminTopicPage() {
   return (
-    <main className="min-h-screen">
+    <main className="flex h-full flex-col">
+      <div>
+
       <Button
         href="./tema-nuevo"
         as={Link}
@@ -12,6 +14,7 @@ export default function AdminTopicPage() {
       >
         Nuevo tema
       </Button>
+      </div>
     </main>
   );
 }

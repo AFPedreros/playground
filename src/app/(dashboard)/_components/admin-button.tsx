@@ -13,7 +13,7 @@ export function AdminButton() {
     <Button
       as={Link}
       color="default"
-      href={isAdminPath ? "/explorar" : "/admin/temas"}
+      href={isAdminPath ? "/inicio" : "/admin/temas"}
       variant="ghost"
       startContent={
         isAdminPath ? (

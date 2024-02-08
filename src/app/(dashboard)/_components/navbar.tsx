@@ -31,7 +31,7 @@ export function Navbar() {
         <NavbarItem>
           <SearchInput
             size="sm"
-            variant="bordered"
+            variant="faded"
             radius="full"
             className="bg-transparent"
           />

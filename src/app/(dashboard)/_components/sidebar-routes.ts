@@ -6,21 +6,26 @@ export const userRoutes = [
     name: "Inicio",
     path: "/inicio",
   },
+  // {
+  //   icon: Icons.telescopeOutline,
+  //   name: "Explorar",
+  //   path: "/explorar",
+  // },
   {
-    icon: Icons.telescopeOutline,
-    name: "Explorar",
-    path: "/explorar",
+    icon: Icons.bookOutline,
+    name: "Temas",
+    path: "/temas",
   },
   {
-    icon: Icons.videosOutline,
-    name: "Videos",
-    path: "/videos",
+    icon: Icons.videoOutline,
+    name: "Tutoriales",
+    path: "/tutoriales",
   },
-  {
-    icon: Icons.routeOutline,
-    name: "Rutas",
-    path: "/rutas",
-  },
+  // {
+  //   icon: Icons.routeOutline,
+  //   name: "Rutas",
+  //   path: "/rutas",
+  // },
 ];
 
 export const adminRoutes = [

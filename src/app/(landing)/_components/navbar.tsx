@@ -53,8 +53,8 @@ export function Navbar() {
 
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarItem>
-          <Link href="/explorar" underline="hover">
-            Explorar cursos
+          <Link href="/inicio" underline="hover">
+            Aprende React
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -80,8 +80,8 @@ export function Navbar() {
 
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link className="w-full" href="/explorar" size="lg">
-            Explorar cursos
+          <Link className="w-full" href="/inicio" size="lg">
+            Aprende React
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>

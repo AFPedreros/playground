@@ -5,15 +5,14 @@ export default function AdminTopicPage() {
   return (
     <main className="flex h-full flex-col">
       <div>
-
-      <Button
-        href="./tema-nuevo"
-        as={Link}
-        color="primary"
-        startContent={<Icons.addOutline className="h-6 w-6" />}
-      >
-        Nuevo tema
-      </Button>
+        <Button
+          href="./tema-nuevo"
+          as={Link}
+          color="primary"
+          startContent={<Icons.addOutline className="h-6 w-6" />}
+        >
+          Nuevo tema
+        </Button>
       </div>
     </main>
   );

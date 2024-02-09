@@ -15,7 +15,7 @@ export function SignInForm() {
   const onSubmit = async () => {
     try {
       await signIn("google");
-      toast.success("Iniciaste sesión correctamente.");
+      // toast.success("Iniciaste sesión correctamente.");
     } catch (error) {
       toast.error("Ocurrió un error al iniciar sesión.");
       console.log(error);

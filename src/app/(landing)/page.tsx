@@ -1,3 +1,4 @@
+import { GitHubLinkButton } from "@/components/github-link-button";
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
@@ -20,18 +21,11 @@ export default async function Home() {
           </h2>
           <div className="flex gap-4">
             <Link href="/tutoriales">
-              <Button fullWidth radius="full" variant="shadow" color="primary">
+              <Button radius="full" variant="shadow" color="primary">
                 Empieza Ahora
               </Button>
             </Link>
-            <Link
-              href="https://github.com/AFPedreros/lms-project"
-              target="_blank"
-            >
-              <Button fullWidth radius="full" variant="ghost">
-                Explora el Código
-              </Button>
-            </Link>
+            <GitHubLinkButton />
           </div>
         </div>
       </section>

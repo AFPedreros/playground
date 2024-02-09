@@ -1,7 +1,9 @@
 "use client";
 
+import { LoginLinkButton } from "@/components/login-link-button";
 import { menuItems } from "@/components/navbar-menu-items";
-import { Button, Divider, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { Divider, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import Link from "next/link";
 
 export function MobileNavbar() {
@@ -19,26 +21,19 @@ export function MobileNavbar() {
       }}
     >
       <NavbarMenuItem>
-        <Button fullWidth as={Link} href="/#" variant="faded">
-          Sign In
-        </Button>
+        <ThemeSwitcher />
       </NavbarMenuItem>
       <NavbarMenuItem className="mb-4">
-        <Button
-          fullWidth
-          as={Link}
-          className="bg-foreground text-background"
-          href="/#"
-        >
-          Get Started
-        </Button>
+        <LoginLinkButton fullWidth />
       </NavbarMenuItem>
       {menuItems.map((item, index) => (
         <NavbarMenuItem key={`${item}-${index}`}>
           <Link className="mb-2 w-full text-default-500" href={item.href}>
             {item.label}
           </Link>
-          {index < menuItems.length - 1 && <Divider className="opacity-50" />}
+          {index < menuItems.length - 1 && (
+            <Divider className="mt-1 opacity-50" />
+          )}
         </NavbarMenuItem>
       ))}
     </NavbarMenu>

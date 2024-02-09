@@ -1,6 +1,14 @@
 export const menuItems = [
   {
-    label: "Aprender React",
+    label: "Tutoriales",
+    href: "/tutoriales",
+  },
+  {
+    label: "Temas",
+    href: "/tutoriales",
+  },
+  {
+    label: "Rutas",
     href: "/tutoriales",
   },
 ];

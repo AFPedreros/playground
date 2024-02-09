@@ -7,13 +7,13 @@ import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   Button,
-  Link,
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 export function Navbar() {
@@ -37,7 +37,10 @@ export function Navbar() {
 
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarItem>
-          <Link href="/inicio" underline="hover">
+          <Link
+            href="/inicio"
+            className="text-primary hover:text-primary/90 hover:underline hover:underline-offset-4"
+          >
             Aprende React
           </Link>
         </NavbarItem>
@@ -49,17 +52,17 @@ export function Navbar() {
         </NavbarItem>
         {!user && (
           <NavbarItem>
-            <Button
-              className="text-white"
-              as={Link}
-              color="primary"
-              href="/inicio-sesion"
-              variant="shadow"
-              startContent={<Icons.loginOutline className="h-6 w-6" />}
-              radius="full"
-            >
-              Inicia sesión
-            </Button>
+            <Link href="/inicio-sesion">
+              <Button
+                className="text-white"
+                color="primary"
+                variant="shadow"
+                startContent={<Icons.loginOutline className="h-6 w-6" />}
+                radius="full"
+              >
+                Inicia sesión
+              </Button>
+            </Link>
           </NavbarItem>
         )}
         {!!user && (

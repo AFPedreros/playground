@@ -5,7 +5,6 @@ import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   Button,
-  Link,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
@@ -13,6 +12,7 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import { User } from "next-auth";
+import Link from "next/link";
 
 type MobileNavbarProps = {
   user: User | null;
@@ -44,23 +44,23 @@ export function MobileNavbar({ user, isMenuOpen }: MobileNavbarProps) {
 
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link className="w-full" href="/inicio" size="lg">
+          <Link className="w-full text-lg" href="/inicio">
             Aprende React
           </Link>
         </NavbarMenuItem>
         {!user && (
           <NavbarMenuItem>
-            <Button
-              className="text-white"
-              as={Link}
-              color="primary"
-              href="/inicio-sesion"
-              variant="shadow"
-              startContent={<Icons.loginOutline className="h-6 w-6" />}
-              radius="full"
-            >
-              Inicia sesión
-            </Button>
+            <Link href="/inicio-sesion">
+              <Button
+                className="text-white"
+                color="primary"
+                variant="shadow"
+                startContent={<Icons.loginOutline className="h-6 w-6" />}
+                radius="full"
+              >
+                Inicia sesión
+              </Button>
+            </Link>
           </NavbarMenuItem>
         )}
       </NavbarMenu>

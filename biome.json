@@ -30,6 +30,9 @@
       },
       "nursery": {
         "noUnusedImports": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   }

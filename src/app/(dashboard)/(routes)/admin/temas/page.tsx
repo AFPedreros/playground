@@ -1,18 +1,19 @@
 import { Icons } from "@/components/icons";
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import Link from "next/link";
 
 export default function AdminTopicPage() {
   return (
     <main className="flex h-full flex-col">
       <div>
-        <Button
-          href="./tema-nuevo"
-          as={Link}
-          color="primary"
-          startContent={<Icons.addOutline className="h-6 w-6" />}
-        >
-          Nuevo tema
-        </Button>
+        <Link href="/admin//tema-nuevo">
+          <Button
+            color="primary"
+            startContent={<Icons.addOutline className="h-6 w-6" />}
+          >
+            Nuevo tema
+          </Button>
+        </Link>
       </div>
     </main>
   );

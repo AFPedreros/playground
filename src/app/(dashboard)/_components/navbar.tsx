@@ -6,12 +6,12 @@ import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   Button,
-  Link,
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { AdminButton } from "./admin-button";
 import { SearchInput } from "./search-input";
 
@@ -50,17 +50,17 @@ export function Navbar() {
         </NavbarItem>
         {!user && (
           <NavbarItem>
-            <Button
-              className="text-white"
-              as={Link}
-              color="primary"
-              href="/inicio-sesion"
-              variant="shadow"
-              startContent={<Icons.loginOutline className="h-6 w-6" />}
-              radius="full"
-            >
-              Inicia sesión
-            </Button>
+            <Link href="/inicio-sesion">
+              <Button
+                className="text-white"
+                color="primary"
+                variant="shadow"
+                startContent={<Icons.loginOutline className="h-6 w-6" />}
+                radius="full"
+              >
+                Inicia sesión
+              </Button>
+            </Link>
           </NavbarItem>
         )}
         {!!user && (

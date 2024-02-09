@@ -1,75 +1,71 @@
 "use client";
 
-import { AvatarButton } from "@/components/avatar-button";
-import { Icons } from "@/components/icons";
+import type { NavbarProps } from "@nextui-org/react";
+
+import { LoginLinkButton } from "@/components/login-link-button";
 import { MobileNavbar } from "@/components/mobile-navbar";
 import { NavbarBrand } from "@/components/navbar-brand";
+import { menuItems } from "@/components/navbar-menu-items";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+
 import {
-  Button,
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarItem,
+  NavbarMenuToggle,
+  cn,
 } from "@nextui-org/react";
-import { User } from "next-auth";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function Navbar() {
-  const { data: session } = useSession();
+export function Navbar(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const user = session?.user;
   return (
     <NextUINavbar
-      className="fixed"
-      position="static"
+      {...props}
+      classNames={{
+        base: cn("border-default-100 fixed", {
+          "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
+        }),
+        wrapper: "w-full justify-center",
+        item: "hidden md:flex",
+      }}
+      height="60px"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
-      <MobileNavbar user={user as User} isMenuOpen={isMenuOpen} />
+      <NavbarBrand />
 
-      <NavbarBrand className="hidden sm:flex" href="/">
-        <p className="font-bold text-inherit">Roadmap</p>
-      </NavbarBrand>
-
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-        <NavbarItem>
-          <Link
-            href="/inicio"
-            className="text-primary hover:text-primary/90 hover:underline hover:underline-offset-4"
-          >
-            Aprender React
-          </Link>
-        </NavbarItem>
+      {/* Navigation */}
+      <NavbarContent justify="center">
+        {menuItems.map((item, index) => (
+          <NavbarItem key={`${item}-${index}`}>
+            <Link
+              className="text-sm text-foreground hover:text-primary hover:underline hover:underline-offset-4"
+              href={item.href}
+            >
+              {item.label}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex" justify="end">
+      {/* Right Content */}
+      <NavbarContent className="hidden md:flex" justify="end">
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
-        {!user && (
-          <NavbarItem>
-            <Link href="/inicio-sesion">
-              <Button
-                color="primary"
-                variant="shadow"
-                startContent={<Icons.loginOutline className="h-6 w-6" />}
-                radius="full"
-              >
-                Inicia sesión
-              </Button>
-            </Link>
-          </NavbarItem>
-        )}
-        {!!user && (
-          <NavbarItem>
-            <AvatarButton />
-          </NavbarItem>
-        )}
+        <NavbarItem className="ml-2 !flex gap-2">
+          <LoginLinkButton />
+        </NavbarItem>
       </NavbarContent>
+
+      {/* Mobile Menu */}
+      <NavbarMenuToggle className="text-default-400 md:hidden" />
+
+      <MobileNavbar />
     </NextUINavbar>
   );
 }

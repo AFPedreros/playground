@@ -1,19 +1,14 @@
 "use client";
+import { Logo } from "@/components/logo";
 import { NavbarBrand as NextUINavbarBrand } from "@nextui-org/react";
 import Link from "next/link";
 
-type NavbarBrandProps = {
-  children: React.ReactNode;
-  className?: string;
-  href: string;
-};
-
-export function NavbarBrand({ children, className, href }: NavbarBrandProps) {
+export function NavbarBrand() {
   return (
-    <NextUINavbarBrand className={className}>
-      <Link href={href}>
-        {/* <AcmeLogo /> */}
-        {children}
+    <NextUINavbarBrand>
+      <Link className="flex items-center" href="/">
+        <Logo size={34} />
+        <span className="ml-2 text-small font-medium">ROADMAP</span>
       </Link>
     </NextUINavbarBrand>
   );

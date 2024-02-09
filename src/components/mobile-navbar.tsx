@@ -1,68 +1,46 @@
 "use client";
-import { AvatarButton } from "@/components/avatar-button";
-import { Icons } from "@/components/icons";
-import { NavbarBrand } from "@/components/navbar-brand";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import {
-  Button,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-} from "@nextui-org/react";
-import { User } from "next-auth";
+
+import { menuItems } from "@/components/navbar-menu-items";
+import { Button, Divider, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import Link from "next/link";
 
-type MobileNavbarProps = {
-  user: User | null;
-  isMenuOpen: boolean;
-};
-
-export function MobileNavbar({ user, isMenuOpen }: MobileNavbarProps) {
+export function MobileNavbar() {
   return (
-    <>
-      <NavbarContent className="pr-3 sm:hidden" justify="center">
-        <NavbarBrand href="/">
-          <p className="font-bold text-inherit">Roadmap</p>
-        </NavbarBrand>
-      </NavbarContent>
-
-      <NavbarContent className="sm:hidden" justify="end">
-        <NavbarItem>
-          <ThemeSwitcher />
-        </NavbarItem>
-        {!!user && (
-          <NavbarItem>
-            <AvatarButton />
-          </NavbarItem>
-        )}
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        />
-      </NavbarContent>
-
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link className="w-full text-lg" href="/inicio">
-            Aprender React
+    <NavbarMenu
+      className="top-[calc(var(--navbar-height)_-_1px)] h-svh max-h-fit bg-default-200/50 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50"
+      motionProps={{
+        initial: { opacity: 0, y: -20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -20 },
+        transition: {
+          ease: "easeInOut",
+          duration: 0.2,
+        },
+      }}
+    >
+      <NavbarMenuItem>
+        <Button fullWidth as={Link} href="/#" variant="faded">
+          Sign In
+        </Button>
+      </NavbarMenuItem>
+      <NavbarMenuItem className="mb-4">
+        <Button
+          fullWidth
+          as={Link}
+          className="bg-foreground text-background"
+          href="/#"
+        >
+          Get Started
+        </Button>
+      </NavbarMenuItem>
+      {menuItems.map((item, index) => (
+        <NavbarMenuItem key={`${item}-${index}`}>
+          <Link className="mb-2 w-full text-default-500" href={item.href}>
+            {item.label}
           </Link>
+          {index < menuItems.length - 1 && <Divider className="opacity-50" />}
         </NavbarMenuItem>
-        {!user && (
-          <NavbarMenuItem>
-            <Link href="/inicio-sesion">
-              <Button
-                color="primary"
-                variant="shadow"
-                startContent={<Icons.loginOutline className="h-6 w-6" />}
-                radius="full"
-              >
-                Inicia sesión
-              </Button>
-            </Link>
-          </NavbarMenuItem>
-        )}
-      </NavbarMenu>
-    </>
+      ))}
+    </NavbarMenu>
   );
 }

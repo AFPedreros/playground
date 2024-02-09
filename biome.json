@@ -26,7 +26,8 @@
       },
       "suspicious": {
         "noConsoleLog": "warn",
-        "noExplicitAny": "warn"
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "off"
       },
       "nursery": {
         "noUnusedImports": "warn"

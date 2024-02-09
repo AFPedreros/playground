@@ -39,21 +39,21 @@ export const userItems: SidebarItem[] = [
 
 export const adminItems: SidebarItem[] = [
   {
-    key: "rutas",
-    href: "/admin/rutas",
-    icon: "solar:routing-linear",
-    title: "Rutas",
-  },
-  {
-    key: "tutoriales",
+    key: "/admin/tutoriales",
     href: "/admin/tutoriales",
     icon: "solar:play-circle-linear",
     title: "Tutoriales",
   },
   {
-    key: "temas",
+    key: "/admin/temas",
     href: "/admin/temas",
     icon: "solar:notebook-square-linear",
     title: "Temas",
+  },
+  {
+    key: "/admin/rutas",
+    href: "/admin/rutas",
+    icon: "solar:routing-linear",
+    title: "Rutas",
   },
 ];

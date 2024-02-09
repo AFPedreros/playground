@@ -11,7 +11,7 @@ export function AdminLinkButton() {
   const isAdminPath = pathname?.includes("/admin");
 
   return (
-    <Link href={isAdminPath ? "/inicio" : "/admin/temas"}>
+    <Link href={isAdminPath ? "/inicio" : "/admin/tutoriales"}>
       <Button
         color="default"
         variant="ghost"

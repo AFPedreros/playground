@@ -10,24 +10,14 @@ datasource db {
     directUrl = env("DIRECT_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 model Topic {
-    id            Int           @id @default(autoincrement())
+    id            String        @id @default(cuid())
     name          String
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
     categories    Category[]
     subCategories SubCategory[]
+    tutorials     Tutorial[]
     isPublished   Boolean       @default(false)
     createdBy     User          @relation(fields: [createdById], references: [id])
     createdById   String
@@ -35,8 +25,35 @@ model Topic {
     @@index([name])
 }
 
+model Tutorial {
+  id           String          @id @default(cuid())
+  title        String
+  description  String? 
+  videoUrl     String? 
+  position     Int
+  isPublished  Boolean         @default(false)
+  isFree       Boolean         @default(false)
+  courseId     String           
+  topic        Topic           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userProgress UserProgress[]  
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model UserProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  chapterId   String   
+  chapter     Tutorial @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, chapterId])
+}
+
 model Category {
-    id            Int           @id @default(autoincrement())
+    id            String        @id @default(cuid())
     name          String
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
@@ -44,23 +61,18 @@ model Category {
     topics        Topic[]
     createdBy     User          @relation(fields: [createdById], references: [id])
     createdById   String
-
-    @@index([name])
 }
 
 model SubCategory {
-    id          Int      @id @default(autoincrement())
+    id          String   @id @default(cuid())
     name        String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    categoryId  Int
+    categoryId  String
     category    Category @relation(fields: [categoryId], references: [id])
     topics      Topic[]
     createdBy   User     @relation(fields: [createdById], references: [id])
     createdById String
-
-    @@index([categoryId])
-    @@index([name])
 }
 
 model Account {
@@ -101,7 +113,6 @@ model User {
     topics        Topic[]
     categories    Category[]
     subCategories SubCategory[]
-    posts         Post[]
 }
 
 model VerificationToken {

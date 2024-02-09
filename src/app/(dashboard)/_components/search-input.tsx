@@ -1,6 +1,6 @@
 "use client";
 
-import { Icons } from "@/components/icons";
+import { Icon } from "@iconify/react";
 import { Input } from "@nextui-org/react";
 
 type SearchInputProps = {
@@ -24,7 +24,9 @@ export function SearchInput({
       className={className}
       type="text"
       placeholder="Busca un tema o un tutorial"
-      startContent={<Icons.searchOutline className="h-6 w-6" />}
+      startContent={
+        <Icon icon="solar:magnifer-linear" height={24} width={24} />
+      }
     />
   );
 }

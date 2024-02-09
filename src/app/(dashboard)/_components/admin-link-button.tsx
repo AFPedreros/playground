@@ -1,11 +1,11 @@
 "use client";
 
-import { Icons } from "@/components/icons";
+import { Icon } from "@iconify/react";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function AdminButton() {
+export function AdminLinkButton() {
   const pathname = usePathname();
 
   const isAdminPath = pathname?.includes("/admin");
@@ -17,9 +17,9 @@ export function AdminButton() {
         variant="ghost"
         startContent={
           isAdminPath ? (
-            <Icons.circleArrowLeftOutline className="h-6 w-6 shrink-0" />
+            <Icon icon="solar:alt-arrow-left-linear" />
           ) : (
-            <Icons.adminOutline className="h-6 w-6 shrink-0" />
+            <Icon icon="solar:shield-user-linear" height={24} width={24} />
           )
         }
       >

@@ -73,9 +73,6 @@ export const authOptions: NextAuthOptions = {
         role: dbUser.role,
       };
     },
-    redirect() {
-      return "/";
-    },
   },
   adapter: PrismaAdapter(db),
   providers: [

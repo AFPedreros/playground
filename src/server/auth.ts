@@ -38,6 +38,18 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/inicio-sesion",
   },
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   callbacks: {
     session: ({ token, session }) => {
       if (token) {

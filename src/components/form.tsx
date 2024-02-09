@@ -3,10 +3,11 @@
 type FormProps = {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
+  className?: string;
 };
-export function Form({ onSubmit, children }: FormProps) {
+export function Form({ onSubmit, children, className }: FormProps) {
   return (
-    <form className="max-w-sm flex flex-col gap-4" onSubmit={onSubmit}>
+    <form className={className} onSubmit={onSubmit}>
       {children}
     </form>
   );

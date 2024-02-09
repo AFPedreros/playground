@@ -48,7 +48,10 @@ export function AddTopicForm() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      className="max-w-sm flex flex-col gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <InputField
         control={control}
         name="name"

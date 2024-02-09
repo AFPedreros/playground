@@ -1,6 +1,5 @@
-import { Icons } from "@/components/icons";
+import { Logo } from "@/components/logo";
 import { getServerAuthSession } from "@/server/auth";
-import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SignInForm } from "./_components/sign-in-form";
@@ -10,21 +9,35 @@ export default async function SignInPage() {
 
   if (session) redirect("/");
   return (
-    <div className="absolute inset-0">
-      <div className="mx-auto flex h-full max-w-2xl items-center justify-center">
-        <div className="flex flex-col items-start gap-20">
-          <Link href={"/"}>
-            <Button
-              color="default"
-              variant="ghost"
-              startContent={
-                <Icons.circleArrowLeftOutline className="h-6 w-6 shrink-0" />
-              }
-            >
-              Volver
-            </Button>
-          </Link>
-          <SignInForm />
+    <div className="relative flex h-screen w-full">
+      <Link
+        href="/"
+        className="absolute flex items-center left-2 top-5 lg:left-5"
+      >
+        <Logo />
+        <span className="ml-2 text-small font-medium">ROADMAP</span>
+      </Link>
+
+      <SignInForm />
+
+      <div
+        className="relative hidden w-1/2 flex-col-reverse rounded-br-none rounded-tr-none rounded-medium p-10 shadow-small lg:flex"
+        style={{
+          backgroundImage:
+            "url(https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/white-building.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex flex-col items-end gap-4">
+          <p className="w-full text-right text-2xl text-black/60">
+            <span className="font-medium">“</span>
+            <span className="font-normal italic">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget
+              augue nec massa volutpat aliquet.
+            </span>
+            <span className="font-medium">”</span>
+          </p>
         </div>
       </div>
     </div>

@@ -34,7 +34,6 @@ export function Navbar(props: NavbarProps) {
         wrapper: "w-full justify-center",
         item: "hidden md:flex",
       }}
-      height="60px"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}

@@ -1,14 +1,14 @@
 export const menuItems = [
   {
+    label: "Inicio",
+    href: "/inicio",
+  },
+  {
     label: "Tutoriales",
     href: "/tutoriales",
   },
   {
     label: "Temas",
-    href: "/tutoriales",
-  },
-  {
-    label: "Rutas",
-    href: "/tutoriales",
+    href: "/temas",
   },
 ];

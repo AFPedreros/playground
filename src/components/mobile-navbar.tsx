@@ -2,7 +2,6 @@
 
 import { LoginLinkButton } from "@/components/login-link-button";
 import { menuItems } from "@/components/navbar-menu-items";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Divider, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import Link from "next/link";
 
@@ -20,9 +19,6 @@ export function MobileNavbar() {
         },
       }}
     >
-      <NavbarMenuItem>
-        <ThemeSwitcher />
-      </NavbarMenuItem>
       <NavbarMenuItem className="mb-4">
         <LoginLinkButton fullWidth />
       </NavbarMenuItem>

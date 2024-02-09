@@ -8,6 +8,7 @@ import { NavbarBrand } from "@/components/navbar-brand";
 import { menuItems } from "@/components/navbar-menu-items";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
+import { AvatarButton } from "@/components/avatar-button";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -15,11 +16,13 @@ import {
   NavbarMenuToggle,
   cn,
 } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
 export function Navbar(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <NextUINavbar
@@ -40,26 +43,38 @@ export function Navbar(props: NavbarProps) {
 
       {/* Navigation */}
       <NavbarContent justify="center">
-        {menuItems.map((item, index) => (
-          <NavbarItem key={`${item}-${index}`}>
-            <Link
-              className="text-sm text-foreground hover:text-primary hover:underline hover:underline-offset-4"
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          </NavbarItem>
-        ))}
+        {menuItems.map((item, index) => {
+          if (item.label === "Inicio" && !session) {
+            return null;
+          }
+          return (
+            <NavbarItem key={`${item}-${index}`}>
+              <Link
+                className="text-sm text-foreground hover:text-primary hover:underline hover:underline-offset-4"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </NavbarItem>
+          );
+        })}
       </NavbarContent>
 
       {/* Right Content */}
-      <NavbarContent className="hidden md:flex" justify="end">
-        <NavbarItem>
+      <NavbarContent justify="end">
+        <NavbarItem className="flex">
           <ThemeSwitcher />
         </NavbarItem>
-        <NavbarItem className="ml-2 !flex gap-2">
-          <LoginLinkButton />
-        </NavbarItem>
+        {!!session && (
+          <NavbarItem className="ml-2 hidden md:!flex gap-2">
+            <AvatarButton />
+          </NavbarItem>
+        )}
+        {!session && (
+          <NavbarItem className="ml-2 hidden md:!flex gap-2">
+            <LoginLinkButton />
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       {/* Mobile Menu */}

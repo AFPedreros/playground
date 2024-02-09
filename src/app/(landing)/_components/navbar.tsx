@@ -41,7 +41,7 @@ export function Navbar() {
             href="/inicio"
             className="text-primary hover:text-primary/90 hover:underline hover:underline-offset-4"
           >
-            Aprende React
+            Aprender React
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -54,7 +54,6 @@ export function Navbar() {
           <NavbarItem>
             <Link href="/inicio-sesion">
               <Button
-                className="text-white"
                 color="primary"
                 variant="shadow"
                 startContent={<Icons.loginOutline className="h-6 w-6" />}

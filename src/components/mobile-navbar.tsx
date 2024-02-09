@@ -45,14 +45,13 @@ export function MobileNavbar({ user, isMenuOpen }: MobileNavbarProps) {
       <NavbarMenu>
         <NavbarMenuItem>
           <Link className="w-full text-lg" href="/inicio">
-            Aprende React
+            Aprender React
           </Link>
         </NavbarMenuItem>
         {!user && (
           <NavbarMenuItem>
             <Link href="/inicio-sesion">
               <Button
-                className="text-white"
                 color="primary"
                 variant="shadow"
                 startContent={<Icons.loginOutline className="h-6 w-6" />}

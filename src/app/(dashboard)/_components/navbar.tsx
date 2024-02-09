@@ -52,7 +52,6 @@ export function Navbar() {
           <NavbarItem>
             <Link href="/inicio-sesion">
               <Button
-                className="text-white"
                 color="primary"
                 variant="shadow"
                 startContent={<Icons.loginOutline className="h-6 w-6" />}

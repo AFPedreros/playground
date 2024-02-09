@@ -1,25 +1,20 @@
 "use client";
 
-import { Icon } from "@iconify/react";
-import { Button, ScrollShadow, Spacer, cn } from "@nextui-org/react";
+import { ScrollShadow, Spacer, cn } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
 
+import { useCollapsedStore } from "@/store/collapsedStore";
 import { usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
 import { Sidebar } from "./sidebar";
 import { adminItems, userItems } from "./sidebar-items";
 
 export function DashboardSidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
 
   const isCompact = isCollapsed || isMobile;
   const items = pathname.startsWith("/admin") ? adminItems : userItems;
-
-  const onToggle = useCallback(() => {
-    setIsCollapsed((prev) => !prev);
-  }, []);
 
   return (
     <div className="flex h-dvh w-full">
@@ -38,11 +33,17 @@ export function DashboardSidebar() {
         </ScrollShadow>
         <Spacer y={2} />
       </div>
-      <div className="w-full flex-1 flex-col p-4">
+      {/* <div className="w-full flex-1 flex-col p-4">
         <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-          <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="secondary"
+            onPress={onToggle}
+          >
             <Icon
-              className="text-default-500"
+              //   className="text-default-500"
               height={24}
               icon="solar:sidebar-minimalistic-outline"
               width={24}
@@ -53,7 +54,7 @@ export function DashboardSidebar() {
         <main className="mt-4 h-full w-full overflow-visible">
           <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider" />
         </main>
-      </div>
+      </div> */}
     </div>
   );
 }

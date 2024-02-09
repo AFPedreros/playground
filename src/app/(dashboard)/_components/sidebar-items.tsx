@@ -1,3 +1,4 @@
+import { Chip } from "@nextui-org/react";
 import type { SidebarItem } from "./sidebar";
 
 export const userItems: SidebarItem[] = [
@@ -17,6 +18,11 @@ export const userItems: SidebarItem[] = [
     href: "/tutoriales",
     icon: "solar:play-circle-linear",
     title: "Tutoriales",
+    endContent: (
+      <Chip size="sm" variant="flat" color="success">
+        Nuevo
+      </Chip>
+    ),
   },
   {
     key: "/temas",

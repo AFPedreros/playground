@@ -9,7 +9,7 @@ import {
   Tooltip,
   cn,
 } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { forwardRef, useCallback } from "react";
 
 export type SidebarItem = {
@@ -48,6 +48,7 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
     },
     ref,
   ) => {
+    const router = useRouter();
     const pathname = usePathname();
 
     const sectionClasses = {
@@ -74,12 +75,8 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
       (item: SidebarItem) => {
         return (
           <ListboxItem
-            {...item}
-            key={item.key}
             textValue={item.title}
-            endContent={
-              isCompact || hideEndContent ? null : item.endContent ?? null
-            }
+            key={item.key}
             startContent={
               isCompact ? null : item.icon ? (
                 <Icon
@@ -94,9 +91,13 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                 item.startContent ?? null
               )
             }
-            title={isCompact ? null : item.title}
+            endContent={
+              isCompact || hideEndContent ? null : item.endContent ?? null
+            }
+            onPress={() => router.push(item.href || "")}
           >
-            {isCompact ? (
+            {!isCompact && item.title}
+            {isCompact && (
               <Tooltip content={item.title} placement="right">
                 <div className="flex w-full items-center justify-center">
                   {item.icon ? (
@@ -113,20 +114,20 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                   )}
                 </div>
               </Tooltip>
-            ) : null}
+            )}
           </ListboxItem>
         );
       },
-      [isCompact, hideEndContent, iconClassName],
+      [isCompact, hideEndContent, iconClassName, router.push],
     );
 
     return (
       <Listbox
         key={isCompact ? "compact" : "default"}
         ref={ref}
+        as="nav"
         aria-label="Sidebar"
         hideSelectedIcon
-        as="nav"
         className={cn("list-none p-0", className)}
         color="primary"
         itemClasses={{
@@ -155,13 +156,58 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
               showDivider={isCompact}
               title={item.title}
             >
-              {/* {item.items.map(renderItem)} */}
               {items.map((item) => renderItem(item))}
             </ListboxSection>
           ) : (
             renderItem(item)
           )
         }
+        {/* {items.map((item) => {
+          return (
+            <ListboxItem
+              textValue={item.title}
+              key={item.key}
+              startContent={
+                isCompact ? null : item.icon ? (
+                  <Icon
+                    className={cn(
+                      "text-default-500 group-data-[selected=true]:text-primary",
+                      iconClassName,
+                    )}
+                    icon={item.icon}
+                    width={24}
+                  />
+                ) : (
+                  item.startContent ?? null
+                )
+              }
+              endContent={
+                isCompact || hideEndContent ? null : item.endContent ?? null
+              }
+              onPress={() => router.push(item.href || "")}
+            >
+              {!isCompact && item.title}
+              {isCompact && (
+                <Tooltip content={item.title} placement="right">
+                  <div className="flex w-full items-center justify-center">
+                    {item.icon ? (
+                      <Icon
+                        className={cn(
+                          "text-default-500 group-data-[selected=true]:text-primary",
+                          iconClassName,
+                        )}
+                        icon={item.icon}
+                        width={24}
+                      />
+                    ) : (
+                      item.startContent ?? null
+                    )}
+                  </div>
+                </Tooltip>
+              )}
+            </ListboxItem>
+          );
+        })} */}
       </Listbox>
     );
   },

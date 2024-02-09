@@ -1,28 +1,40 @@
-import { Button } from "@nextui-org/button";
-import { unstable_noStore as noStore } from "next/cache";
-
-import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
+import { Button, Chip } from "@nextui-org/react";
+import Link from "next/link";
 
 export default async function Home() {
-  noStore();
-  const hello = await api.post.hello.query({ text: "From tRPC" });
-  const session = await getServerAuthSession();
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <Button color="primary">Click me</Button>
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
-          <p className="text-2xl">{session?.user.email}</p>
+    <main className="container mx-auto h-screen max-w-7xl">
+      <section className="relative flex h-full w-screen flex-nowrap items-center justify-center overflow-hidden md:ml-0 md:w-full lg:overflow-visible">
+        <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-4 text-center leading-8 md:px-0">
+          <Link href="https://roadmap.sh/react" target="_blank">
+            <Chip>Basado en roadmap.sh</Chip>
+          </Link>
+          <h1 className="text-5xl font-semibold tracking-tight md:text-6xl lg:text-7xl">
+            Domina <span className="text-primary">React</span> con Animaciones
+            Interactivas
+          </h1>
+          <h2 className="max-w-xl text-pretty leading-tight text-default-500 lg:text-lg">
+            Sumérgete en la programación moderna con lecciones dinámicas y
+            efectivas. Aprende a tu ritmo y construye proyectos reales con
+            React, el framework que está transformando la web.
+          </h2>
+          <div className="flex gap-4">
+            <Link href="/tutoriales">
+              <Button fullWidth radius="full" variant="shadow" color="primary">
+                Empieza Ahora
+              </Button>
+            </Link>
+            <Link
+              href="https://github.com/AFPedreros/lms-project"
+              target="_blank"
+            >
+              <Button fullWidth radius="full" variant="ghost">
+                Explora el Código
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import { GitHubLinkButton } from "@/components/github-link-button";
-import { Button, Chip } from "@nextui-org/react";
+import { LinkButton } from "@/components/link-button";
+import { Chip } from "@nextui-org/react";
 import Link from "next/link";
 
 export default async function Home() {
@@ -20,11 +21,15 @@ export default async function Home() {
             React, el framework que está transformando la web.
           </h2>
           <div className="flex gap-4">
-            <Link href="/tutoriales">
-              <Button radius="full" variant="shadow" color="primary">
-                Empieza Ahora
-              </Button>
-            </Link>
+            <LinkButton
+              href="/tutoriales"
+              radius="full"
+              variant="shadow"
+              color="primary"
+            >
+              Empieza Ahora
+            </LinkButton>
+
             <GitHubLinkButton />
           </div>
         </div>

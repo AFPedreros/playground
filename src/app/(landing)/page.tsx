@@ -11,7 +11,7 @@ export default async function Home() {
       <section className="relative flex h-full min-h-screen w-full flex-nowrap items-center justify-center overflow-hidden lg:overflow-visible">
         <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-4 text-center leading-8 md:px-0">
           <Link href="https://roadmap.sh/react" target="_blank">
-            <MovingBorderChip duration={2500}>
+            <MovingBorderChip duration={2000}>
               Basado en roadmap.sh
             </MovingBorderChip>
           </Link>

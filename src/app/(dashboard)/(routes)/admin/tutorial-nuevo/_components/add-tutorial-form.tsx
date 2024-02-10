@@ -15,12 +15,12 @@ const formSchema = z.object({
   name: z.string().min(3, "Se necesita un título con más de 3 caracteres"),
 });
 
-export function AddTopicForm() {
+export function AddTutorialForm() {
   const router = useRouter();
   const { mutate, isLoading } = api.topic.create.useMutation({
-    mutationKey: ["create-topic"],
+    mutationKey: ["create-tutorial"],
     onSuccess: (data) => {
-      toast.success("Tema creado");
+      toast.success("Tutorial creado");
       router.push(`/admin/temas/${data.id}`);
     },
     onError: (error) => {

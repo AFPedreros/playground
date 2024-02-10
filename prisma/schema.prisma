@@ -11,57 +11,82 @@ datasource db {
 }
 
 model Topic {
-    id            String        @id @default(cuid())
-    name          String
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @updatedAt
-    categories    Category[]
-    subCategories SubCategory[]
-    tutorials     Tutorial[]
-    isPublished   Boolean       @default(false)
-    createdBy     User          @relation(fields: [createdById], references: [id])
-    createdById   String
-
-    @@index([name])
+  id              String             @id @default(cuid())
+  name            String
+  description     String?
+  imageUrl        String?
+  createdAt     DateTime             @default(now())
+  updatedAt       DateTime           @updatedAt
+  tutorials       Tutorial[]
+  isPublished     Boolean            @default(false)
+  createdBy       User               @relation(fields: [createdById], references: [id])
+  createdById     String
+  categories      Category[]         @relation("TopicCategories")
+  topicCategories TopicCategory[]
+  subCategories   SubCategoryTopic[]
+  
+  @@index([name])
 }
 
 model Tutorial {
   id           String          @id @default(cuid())
-  title        String
+  name         String
   description  String? 
   videoUrl     String? 
   position     Int
   isPublished  Boolean         @default(false)
   isFree       Boolean         @default(false)
-  courseId     String           
-  topic        Topic           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  topicId      String           
+  topic        Topic           @relation(fields: [topicId], references: [id], onDelete: Cascade)
   userProgress UserProgress[]  
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
+  createdBy     User          @relation(fields: [createdById], references: [id])
+  createdById  String
 }
 
 model UserProgress {
   id          String   @id @default(cuid())
   userId      String
-  chapterId   String   
-  chapter     Tutorial @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  tutorialId   String   
+  tutorial     Tutorial @relation(fields: [tutorialId], references: [id], onDelete: Cascade)
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@unique([userId, chapterId])
+  @@unique([userId, tutorialId])
+}
+
+model TopicCategory {
+  topicId    String
+  categoryId String
+  topic      Topic    @relation(fields: [topicId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([topicId, categoryId])
 }
 
 model Category {
-    id            String        @id @default(cuid())
-    name          String
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @updatedAt
-    subCategories SubCategory[]
-    topics        Topic[]
-    createdBy     User          @relation(fields: [createdById], references: [id])
-    createdById   String
+  id            String        @id @default(cuid())
+  name          String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  subCategories SubCategory[]
+  topics        Topic[]       @relation("TopicCategories")
+  topicCategories TopicCategory[]
+  createdBy     User          @relation(fields: [createdById], references: [id])
+  createdById   String
 }
+
+model SubCategoryTopic {
+  subCategoryId String
+  topicId       String
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  topic         Topic        @relation(fields: [topicId], references: [id])
+
+  @@id([subCategoryId, topicId])
+}
+
 
 model SubCategory {
     id          String   @id @default(cuid())
@@ -70,7 +95,7 @@ model SubCategory {
     updatedAt   DateTime @updatedAt
     categoryId  String
     category    Category @relation(fields: [categoryId], references: [id])
-    topics      Topic[]
+    topics      SubCategoryTopic[]
     createdBy   User     @relation(fields: [createdById], references: [id])
     createdById String
 }
@@ -111,6 +136,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     topics        Topic[]
+    tutorials     Tutorial[]
     categories    Category[]
     subCategories SubCategory[]
 }

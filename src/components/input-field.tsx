@@ -5,10 +5,10 @@ type InputFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   onClear: () => void;
-  label: string;
+  label?: string;
   type: string;
-  description: string;
-  isRequired: boolean;
+  description?: string;
+  isRequired?: boolean;
   isInvalid: boolean;
   errorMessage: string | undefined;
 };

@@ -8,6 +8,7 @@ export default function AdminTopicPage() {
       <div>
         <Link href="/admin//tema-nuevo">
           <Button
+            variant="shadow"
             color="primary"
             startContent={<Icons.addOutline className="h-6 w-6" />}
           >

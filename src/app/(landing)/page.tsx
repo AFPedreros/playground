@@ -1,6 +1,7 @@
 import { GitHubLinkButton } from "@/components/github-link-button";
 import { LinkButton } from "@/components/link-button";
-import { Chip } from "@nextui-org/react";
+import { MovingBorderChip } from "@/components/moving-border-chip";
+
 import Link from "next/link";
 
 export default async function Home() {
@@ -10,8 +11,11 @@ export default async function Home() {
       <section className="relative flex h-full min-h-screen w-full flex-nowrap items-center justify-center overflow-hidden lg:overflow-visible">
         <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-4 text-center leading-8 md:px-0">
           <Link href="https://roadmap.sh/react" target="_blank">
-            <Chip>Basado en roadmap.sh</Chip>
+            <MovingBorderChip duration={2500}>
+              Basado en roadmap.sh
+            </MovingBorderChip>
           </Link>
+
           <h1 className="text-5xl font-semibold tracking-tight md:text-6xl lg:text-7xl">
             Domina <span className="text-primary">React</span> con Animaciones
             Interactivas

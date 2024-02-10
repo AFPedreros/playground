@@ -23,8 +23,11 @@ export function MobileNavbar() {
         <LoginLinkButton fullWidth />
       </NavbarMenuItem>
       {menuItems.map((item, index) => (
-        <NavbarMenuItem key={`${item}-${index}`}>
-          <Link className="mb-2 w-full text-default-500" href={item.href}>
+        <NavbarMenuItem className="group" key={`${item}-${index}`}>
+          <Link
+            className="mb-2 w-full text-2xl text-foreground group-hover:text-primary"
+            href={item.href}
+          >
             {item.label}
           </Link>
           {index < menuItems.length - 1 && (

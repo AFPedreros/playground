@@ -25,7 +25,10 @@ export default function DashboardLayout({
             "w-full duration-250 pl-16 ease-in-out transition-width h-fit",
           )}
         >
-          <div className="w-full h-full flex-col p-6">
+          <div className="w-full relative min-h-[calc(100vh-4rem)] h-full flex-col p-6">
+            <div className="absolute bottom-0 opacity-50 -z-20 left-0 right-0 top-0 dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.2]" />
+            <div className="absolute bg-background bottom-0 -z-10 left-0 right-0 top-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+
             <DashboardHeader />
             {children}
           </div>

@@ -20,7 +20,7 @@ export function DashboardHeader() {
   }, [setIsCollapsed]);
 
   return (
-    <div className="mb-6 w-full">
+    <div className="mb-6 bg-background w-full">
       <header className="flex flex-col gap-y-6 rounded-medium border-small border-divider p-4">
         <div className="flex items-center justify-between">
           <Tooltip

@@ -21,7 +21,7 @@ export function DashboardSidebar() {
       <div
         className={cn(
           isCompact ? "w-16 px-2" : "w-72 px-6",
-          "relative flex h-full flex-col !border-r-small border-divider py-6 duration-250 ease-in-out transition-width",
+          "relative bg-gradient-to-b from-background/25 to-primary/25  flex h-full flex-col !border-r-small border-divider py-6 duration-250 ease-in-out transition-width ",
         )}
       >
         <ScrollShadow className="h-full max-h-full">
@@ -33,28 +33,6 @@ export function DashboardSidebar() {
         </ScrollShadow>
         <Spacer y={2} />
       </div>
-      {/* <div className="w-full flex-1 flex-col p-4">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-          <Button
-            isIconOnly
-            size="sm"
-            variant="flat"
-            color="secondary"
-            onPress={onToggle}
-          >
-            <Icon
-              //   className="text-default-500"
-              height={24}
-              icon="solar:sidebar-minimalistic-outline"
-              width={24}
-            />
-          </Button>
-          <h2 className="text-medium font-medium text-default-700">Overview</h2>
-        </header>
-        <main className="mt-4 h-full w-full overflow-visible">
-          <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider" />
-        </main>
-      </div> */}
     </div>
   );
 }

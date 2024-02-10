@@ -21,8 +21,8 @@ export default function DashboardLayout({
         </div>
         <div
           className={cn(
-            isCollapsed ? "pl-16" : "pl-72",
-            "w-full duration-250 ease-in-out transition-width h-fit",
+            isCollapsed ? "pl-16" : "md:pl-72",
+            "w-full duration-250 pl-16 ease-in-out transition-width h-fit",
           )}
         >
           <div className="w-full h-full flex-col p-6">

@@ -53,18 +53,18 @@ export function Navbar(props: NavbarProps) {
 
       {/* Right Content */}
       <NavbarContent justify="end">
-        <NavbarItem className="hidden sm:flex">
+        <NavbarItem className="hidden md:flex">
           {user?.role === "ADMIN" && <AdminLinkButton />}
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="flex">
           <ThemeSwitcher />
         </NavbarItem>
         {!user && (
-          <NavbarItem>
+          <NavbarItem className="flex">
             <LinkButton
               href="/inicio-sesion"
               color="primary"
-              variant="shadow"
+              variant="flat"
               startContent={<Icons.loginOutline className="h-6 w-6" />}
               radius="full"
             >
@@ -73,7 +73,7 @@ export function Navbar(props: NavbarProps) {
           </NavbarItem>
         )}
         {!!user && (
-          <NavbarItem>
+          <NavbarItem className="flex">
             <AvatarButton />
           </NavbarItem>
         )}

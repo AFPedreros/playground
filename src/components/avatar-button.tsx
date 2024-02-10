@@ -8,9 +8,13 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export function AvatarButton() {
   const { data: session } = useSession();
+
+  const user = session?.user;
+
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -18,7 +22,7 @@ export function AvatarButton() {
           isBordered
           as="button"
           className="transition-transform"
-          src={session?.user?.image || ""}
+          src={user?.image || ""}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions & Logout" variant="flat">
@@ -32,15 +36,15 @@ export function AvatarButton() {
           >
             <div className="inline-flex flex-col items-start">
               <span className="text-small text-default-600">
-                {session?.user?.name || "John Doe"}
+                {user?.name || "John Doe"}
               </span>
               <span className="text-tiny text-default-500">
-                {session?.user?.email || "email@ejemplo.com"}
+                {user?.email || "email@ejemplo.com"}
               </span>
             </div>
           </DropdownItem>
-          <DropdownItem key="user-profile" href="/perfil" color="primary">
-            Perfil
+          <DropdownItem key="user-profile" color="primary">
+            <Link href="/perfil">Perfil</Link>
           </DropdownItem>
           {/* <DropdownItem key="settings" color="primary">
             Configuración

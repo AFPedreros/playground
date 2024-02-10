@@ -20,11 +20,9 @@ export function ThemeSwitcher() {
   if (!mounted) return <Button radius="full" variant="light" isIconOnly />;
 
   return (
-    <>
-      <Button onClick={toggleTheme} radius="full" variant="light" isIconOnly>
-        {theme === "dark" && <Icon icon="ph:sun" height={24} width={24} />}
-        {theme === "light" && <Icon icon="ph:moon" height={24} width={24} />}
-      </Button>
-    </>
+    <Button onClick={toggleTheme} radius="full" variant="light" isIconOnly>
+      {theme === "dark" && <Icon icon="ph:sun" height={24} width={24} />}
+      {theme === "light" && <Icon icon="ph:moon" height={24} width={24} />}
+    </Button>
   );
 }

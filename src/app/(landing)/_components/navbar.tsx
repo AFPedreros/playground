@@ -65,12 +65,12 @@ export function Navbar(props: NavbarProps) {
           <ThemeSwitcher />
         </NavbarItem>
         {!!session && (
-          <NavbarItem className="ml-2 hidden md:!flex gap-2">
+          <NavbarItem className="flex">
             <AvatarButton />
           </NavbarItem>
         )}
         {!session && (
-          <NavbarItem className="ml-2 hidden md:!flex gap-2">
+          <NavbarItem className="hidden md:flex">
             <LoginLinkButton />
           </NavbarItem>
         )}

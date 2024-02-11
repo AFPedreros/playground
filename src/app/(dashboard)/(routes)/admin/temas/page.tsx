@@ -1,4 +1,4 @@
-import { Icons } from "@/components/icons";
+import { Icon } from "@/components/icon";
 import { LinkButton } from "@/components/link-button";
 
 export default function AdminTopicPage() {
@@ -9,7 +9,9 @@ export default function AdminTopicPage() {
           href="/admin//tema-nuevo"
           variant="shadow"
           color="primary"
-          startContent={<Icons.addOutline className="h-6 w-6" />}
+          startContent={
+            <Icon icon="solar:add-circle-linear" height={24} width={24} />
+          }
         >
           Nuevo tema
         </LinkButton>

@@ -5,12 +5,11 @@ import { toast } from "sonner";
 
 import { Form } from "@/components/form";
 import { Divider, Link } from "@nextui-org/react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { GoogleSignInButton } from "./google-signin-button";
 
 export function SignInForm() {
-  const { data: session, status } = useSession();
   const { handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 

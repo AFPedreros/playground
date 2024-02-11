@@ -1,5 +1,6 @@
 "use client";
 
+import { LoginLinkButton } from "@/components/login-link-button";
 import { useCollapsedStore } from "@/store/collapsedStore";
 import { Icon } from "@iconify/react";
 import { Button, Tooltip } from "@nextui-org/react";
@@ -45,7 +46,7 @@ export function DashboardHeader() {
               </Button>
             </Tooltip>
           )}
-
+          {!!isMobile && !session && <LoginLinkButton />}
           {user?.role === "ADMIN" && (
             <div className="flex md:hidden">
               <AdminLinkButton />

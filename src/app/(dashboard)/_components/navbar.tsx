@@ -1,8 +1,6 @@
 "use client";
 
 import { AvatarButton } from "@/components/avatar-button";
-import { Icons } from "@/components/icons";
-import { LinkButton } from "@/components/link-button";
 import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import type { NavbarProps } from "@nextui-org/react";
@@ -59,19 +57,6 @@ export function Navbar(props: NavbarProps) {
         <NavbarItem className="flex">
           <ThemeSwitcher />
         </NavbarItem>
-        {!user && (
-          <NavbarItem className="flex">
-            <LinkButton
-              href="/inicio-sesion"
-              color="primary"
-              variant="flat"
-              startContent={<Icons.loginOutline className="h-6 w-6" />}
-              radius="full"
-            >
-              Inicia sesión
-            </LinkButton>
-          </NavbarItem>
-        )}
         {!!user && (
           <NavbarItem className="flex">
             <AvatarButton />

@@ -5,7 +5,11 @@ import { menuItems } from "@/components/navbar-menu-items";
 import { Divider, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import Link from "next/link";
 
-export function MobileNavbar() {
+type MobileNavbarProps = {
+  isUserLoggedIn: boolean;
+};
+
+export function MobileNavbar({ isUserLoggedIn }: MobileNavbarProps) {
   return (
     <NavbarMenu
       className="top-[calc(var(--navbar-height)_-_1px)] h-svh max-h-fit bg-default-200/50 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50"
@@ -19,9 +23,11 @@ export function MobileNavbar() {
         },
       }}
     >
-      <NavbarMenuItem className="mb-4">
-        <LoginLinkButton fullWidth />
-      </NavbarMenuItem>
+      {!isUserLoggedIn && (
+        <NavbarMenuItem className="mb-4">
+          <LoginLinkButton fullWidth />
+        </NavbarMenuItem>
+      )}
       {menuItems.map((item, index) => (
         <NavbarMenuItem className="group" key={`${item}-${index}`}>
           <Link

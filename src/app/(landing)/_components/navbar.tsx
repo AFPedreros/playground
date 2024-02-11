@@ -79,7 +79,7 @@ export function Navbar(props: NavbarProps) {
       {/* Mobile Menu */}
       <NavbarMenuToggle className="text-default-400 md:hidden" />
 
-      <MobileNavbar />
+      <MobileNavbar isUserLoggedIn={!!session} />
     </NextUINavbar>
   );
 }

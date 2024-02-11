@@ -7,7 +7,7 @@ import { SignInForm } from "./_components/sign-in-form";
 export default async function SignInPage() {
   const session = await getServerAuthSession();
 
-  if (session) redirect("/");
+  if (session) redirect("/tutoriales");
   return (
     <div className="relative flex h-screen w-full">
       <Link

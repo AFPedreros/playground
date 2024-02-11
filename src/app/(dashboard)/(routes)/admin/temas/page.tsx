@@ -1,7 +1,10 @@
 import { Icon } from "@/components/icon";
 import { LinkButton } from "@/components/link-button";
+import { db } from "@/server/db";
+import Link from "next/link";
 
-export default function AdminTopicPage() {
+export default async function AdminTopicPage() {
+  const topics = await db.topic.findMany();
   return (
     <main className="flex h-full flex-col gap-y-6 lg:max-w-2xl">
       <div>
@@ -16,6 +19,9 @@ export default function AdminTopicPage() {
           Nuevo tema
         </LinkButton>
       </div>
+      {topics.map((topic) => (
+        <Link href={`/admin/temas/${topic.id}`}>{topic.name}</Link>
+      ))}
     </main>
   );
 }

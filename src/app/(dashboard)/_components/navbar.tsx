@@ -1,6 +1,7 @@
 "use client";
 
 import { AvatarButton } from "@/components/avatar-button";
+import { LoginLinkButton } from "@/components/login-link-button";
 import { NavbarBrand } from "@/components/navbar-brand";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import type { NavbarProps } from "@nextui-org/react";
@@ -57,6 +58,11 @@ export function Navbar(props: NavbarProps) {
         <NavbarItem className="flex">
           <ThemeSwitcher />
         </NavbarItem>
+        {!user && (
+          <NavbarItem className="hidden md:flex">
+            <LoginLinkButton />
+          </NavbarItem>
+        )}
         {!!user && (
           <NavbarItem className="flex">
             <AvatarButton />

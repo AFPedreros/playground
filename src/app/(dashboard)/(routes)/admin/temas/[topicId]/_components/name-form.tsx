@@ -29,18 +29,8 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticName, setOptimisticName] = useState(initialData.name);
 
-  const { mutate, isLoading } = api.topic.update.useMutation({
+  const { isLoading, mutateAsync } = api.topic.update.useMutation({
     mutationKey: ["update-topic-name"],
-    onMutate: (data) => {
-      if (data.name) setOptimisticName(data.name);
-    },
-    onSuccess: () => {
-      toast.success("Nombre actualizado correctamente");
-    },
-    onError: (error) => {
-      setOptimisticName(initialData.name);
-      toast.error(error.message);
-    },
   });
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
@@ -50,7 +40,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialData.name,
+      name: optimisticName,
     },
     mode: "onChange",
   });
@@ -61,7 +51,16 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const name = values.name;
-    mutate({ name, id: topicId });
+    setOptimisticName(name);
+    try {
+      await mutateAsync({ name, id: topicId });
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Error al actualizar el nombre");
+    } finally {
+      toast.success("Nombre actualizado correctamente");
+      toggleEdit();
+    }
   };
 
   return (

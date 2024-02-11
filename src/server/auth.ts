@@ -62,7 +62,6 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-
     async jwt({ token, user }) {
       const dbUser = await db.user.findFirst({
         where: {
@@ -85,12 +84,37 @@ export const authOptions: NextAuthOptions = {
         role: dbUser.role,
       };
     },
+    async signIn({ user }) {
+      if (user.email) {
+        const dbUser = await db.user.findFirst({
+          where: {
+            email: user.email,
+          },
+        });
+
+        if (!dbUser) {
+          await db.user.create({
+            data: {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              emailVerified: new Date(),
+              role: "USER",
+            },
+          });
+        }
+      }
+
+      return true;
+    },
   },
   adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+
       allowDangerousEmailAccountLinking: true,
     }),
   ],

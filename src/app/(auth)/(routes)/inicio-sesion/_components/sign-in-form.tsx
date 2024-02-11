@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { Form } from "@/components/form";
 import { Divider, Link } from "@nextui-org/react";
+
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { GoogleSignInButton } from "./google-signin-button";
@@ -16,14 +17,13 @@ export function SignInForm() {
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn("google", { callbackUrl: "/tutoriales" });
-      console.log("Sign-in result:", result); // Log the result for debugging
-      toast.success("Sesión iniciada correctamente.");
+      await signIn("google", { redirect: false });
     } catch (error) {
-      console.error("Sign-in error:", error); // Log the error for debugging
+      console.error("Error", error);
       toast.error("Ocurrió un error al iniciar sesión.");
     } finally {
       setIsLoading(false);
+      toast.success("Sesión iniciada correctamente.");
     }
   };
 

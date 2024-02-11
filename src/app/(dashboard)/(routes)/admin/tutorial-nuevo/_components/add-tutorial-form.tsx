@@ -49,26 +49,25 @@ export function AddTutorialForm() {
   };
 
   return (
-    <Form
-      className="flex max-w-sm flex-col gap-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <InputField
-        control={control}
-        name="name"
-        onClear={() => setValue("name", "")}
-        label="Nombre"
-        type="text"
-        description="Escribe el nombre del tema"
-        isRequired={true}
-        isInvalid={(!!errors.name && dirtyFields.name) as boolean}
-        errorMessage={errors.name?.message}
-      />
-      <ButtonGroup
-        isLoading={isLoading}
-        href="/admin/temas"
-        isDisabled={!isValid || isSubmitting}
-      />
-    </Form>
+    <div className="flex-1 rounded-medium border-small border-divider bg-background p-4">
+      <Form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <InputField
+          control={control}
+          name="name"
+          onClear={() => setValue("name", "")}
+          label="Nombre"
+          type="text"
+          description="Escribe el nombre del tema"
+          isRequired={true}
+          isInvalid={(!!errors.name && dirtyFields.name) as boolean}
+          errorMessage={errors.name?.message}
+        />
+        <ButtonGroup
+          isLoading={isLoading}
+          href="/admin/temas"
+          isDisabled={!isValid || isSubmitting}
+        />
+      </Form>
+    </div>
   );
 }

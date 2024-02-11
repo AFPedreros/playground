@@ -18,7 +18,7 @@ export function GoogleSignInButton({ isLoading }: GoogleSignInButtonProps) {
       variant="ghost"
       isLoading={isLoading}
     >
-      Continue with Google
+      Continúa con Google
     </Button>
   );
 }

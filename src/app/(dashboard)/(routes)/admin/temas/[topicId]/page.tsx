@@ -18,13 +18,7 @@ export default async function TopicIdPage({
 
   if (!topic) redirect("/admin/temas");
 
-  const requiredFields = [
-    topic.name,
-    topic.description,
-    topic.imageUrl,
-    topic.categories,
-    topic.subCategories,
-  ];
+  const requiredFields = [topic.name, topic.description, topic.imageUrl];
 
   const totalFields = requiredFields.length;
   const filledFields = requiredFields.filter((field) => field).length;
@@ -32,15 +26,16 @@ export default async function TopicIdPage({
   const completionText = `(${filledFields}/${totalFields}) completado`;
 
   return (
-    <div className="flex h-full flex-col gap-y-6">
-      <div className="lg:max-w-2xl">
+    <main className="flex h-full flex-col gap-y-6 lg:max-w-2xl">
+      <div className="space-y-0.5">
         <h1 className="text-2xl font-bold">Configuración del tema</h1>
         <p className="text-default-500">
           Completa todos los campos {completionText}.
         </p>
-        <Divider className="mt-2" />
       </div>
+      <Divider />
+
       <NameForm initialData={topic} topicId={topic.id} />
-    </div>
+    </main>
   );
 }

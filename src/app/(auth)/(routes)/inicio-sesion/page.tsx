@@ -12,7 +12,7 @@ export default async function SignInPage() {
     <div className="relative flex h-screen w-full">
       <Link
         href="/"
-        className="absolute flex items-center left-2 top-5 lg:left-5"
+        className="absolute left-2 top-5 flex items-center lg:left-5"
       >
         <Logo />
         <span className="ml-2 text-small font-medium">ROADMAP</span>
@@ -21,7 +21,7 @@ export default async function SignInPage() {
       <SignInForm />
 
       <div
-        className="relative hidden w-1/2 flex-col-reverse rounded-br-none rounded-tr-none rounded-medium p-10 shadow-small lg:flex"
+        className="relative hidden w-1/2 flex-col-reverse rounded-medium rounded-br-none rounded-tr-none p-10 shadow-small lg:flex"
         style={{
           backgroundImage:
             "url(https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/white-building.jpg)",

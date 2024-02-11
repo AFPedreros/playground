@@ -2,7 +2,6 @@
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -17,36 +16,36 @@ const formSchema = z.object({
 import { Button } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
+import { useToggle } from "usehooks-ts";
+
+type TopicName = Pick<Topic, "name">;
 
 type NameFormProps = {
-  initialData: Topic;
+  initialData: TopicName;
   topicId: string;
 };
 
 export function NameForm({ initialData, topicId }: NameFormProps) {
-  const router = useRouter();
-  const [isEditing, setIsEditing] = useState(false);
-  const [isUpdatePending, setIsUpdatePending] = useState(false);
+  const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticName, setOptimisticName] = useState(initialData.name);
 
-  const { mutate, isLoading } = api.topic.create.useMutation({
-    mutationKey: ["create-topic"],
-    onSuccess: (data) => {
-      toast.success("Tema creado");
-      router.push(`/admin/temas/${data.id}`);
+  const { mutate, isLoading } = api.topic.update.useMutation({
+    mutationKey: ["update-topic-name"],
+    onMutate: (data) => {
+      if (data.name) setOptimisticName(data.name);
+    },
+    onSuccess: () => {
+      toast.success("Nombre actualizado correctamente");
     },
     onError: (error) => {
+      setOptimisticName(initialData.name);
       toast.error(error.message);
-    },
-    onSettled: () => {
-      reset();
     },
   });
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
     setValue,
-    reset,
     handleSubmit,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,26 +56,34 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   });
 
   const toggleEdit = () => {
-    setIsEditing((prev) => !prev);
+    toggleEditing();
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    mutate(values);
+    const name = values.name;
+    mutate({ name, id: topicId });
   };
 
   return (
-    <div className="w-fit rounded-large bg-background/60 p-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
+    <div className="w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="font-medium text-foreground">
-          Nombre <span className="text-sm font-light">(requerido)</span>
+          Nombre{" "}
+          <span className="text-sm font-light text-danger">(requerido)</span>
         </h4>
         <Button
           startContent={
-            isEditing ? (
-              <Icon icon="solar:close-circle-linear" height={18} width={18} />
-            ) : (
-              <Icon icon="solar:pen-2-linear" height={18} width={18} />
-            )
+            isEditing
+              ? !isLoading && (
+                  <Icon
+                    icon="solar:close-circle-linear"
+                    height={18}
+                    width={18}
+                  />
+                )
+              : !isLoading && (
+                  <Icon icon="solar:pen-2-linear" height={18} width={18} />
+                )
           }
           size="sm"
           isIconOnly
@@ -84,10 +91,10 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           onClick={toggleEdit}
         />
       </div>
-      {!isEditing && <p className="text-success">{optimisticName}</p>}
+      {!isEditing && <p className="text-primary">{optimisticName}</p>}
       {!!isEditing && (
         <Form
-          className="mt-6 flex w-80 flex-col gap-4"
+          className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
           <InputField
@@ -97,8 +104,16 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
             type="text"
             isInvalid={(!!errors.name && dirtyFields.name) as boolean}
             errorMessage={errors.name?.message}
+            isDisabled={isLoading || isSubmitting}
           />
-          <Button color="primary">Guardar</Button>
+          <Button
+            type="submit"
+            color="primary"
+            isLoading={isLoading || isSubmitting}
+            isDisabled={!isValid || isSubmitting}
+          >
+            Guardar
+          </Button>
         </Form>
       )}
     </div>

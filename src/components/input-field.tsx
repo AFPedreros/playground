@@ -10,6 +10,7 @@ type InputFieldProps<T extends FieldValues> = {
   description?: string;
   isRequired?: boolean;
   isInvalid: boolean;
+  isDisabled?: boolean;
   errorMessage: string | undefined;
 };
 
@@ -22,6 +23,7 @@ export function InputField<T extends FieldValues>({
   description,
   isRequired,
   isInvalid,
+  isDisabled,
   errorMessage,
 }: InputFieldProps<T>) {
   return (
@@ -42,6 +44,7 @@ export function InputField<T extends FieldValues>({
           isRequired={isRequired}
           isInvalid={isInvalid}
           errorMessage={isInvalid && errorMessage}
+          isDisabled={isDisabled}
           {...field}
         />
       )}

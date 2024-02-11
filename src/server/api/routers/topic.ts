@@ -13,4 +13,22 @@ export const topicRouter = createTRPCRouter({
         },
       });
     }),
+  update: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).optional(),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        isPublished: z.boolean().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...updateData } = input;
+
+      return ctx.db.topic.update({
+        where: { id },
+        data: updateData,
+      });
+    }),
 });

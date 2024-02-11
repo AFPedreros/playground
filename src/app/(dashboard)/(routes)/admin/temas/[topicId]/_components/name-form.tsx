@@ -29,9 +29,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticName, setOptimisticName] = useState(initialData.name);
 
-  const { isLoading, mutateAsync } = api.topic.update.useMutation({
-    mutationKey: ["update-topic-name"],
-  });
+  const { isLoading, mutateAsync } = api.topic.update.useMutation();
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,

@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
+import { LinkButton } from "./link-button";
 
 type FormButtonGroupProps = {
   href?: string;
@@ -15,16 +15,15 @@ export function ButtonGroup({
   return (
     <div className="flex items-center gap-x-2">
       {!!href && (
-        <Link href={href}>
-          <Button
-            radius="full"
-            type="button"
-            variant="ghost"
-            isLoading={isLoading}
-          >
-            Cancelar
-          </Button>
-        </Link>
+        <LinkButton
+          href={href}
+          radius="full"
+          type="button"
+          variant="ghost"
+          isLoading={isLoading}
+        >
+          Cancelar
+        </LinkButton>
       )}
       <Button
         radius="full"

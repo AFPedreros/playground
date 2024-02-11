@@ -1,19 +1,19 @@
 import { Icons } from "@/components/icons";
-import { Button } from "@nextui-org/react";
-import Link from "next/link";
+import { LinkButton } from "@/components/link-button";
 
 export default function AdminTutorialPage() {
   return (
     <main className="flex h-full flex-col lg:max-w-2xl">
-      <Link href="/admin/tutorial-nuevo">
-        <Button
+      <div>
+        <LinkButton
+          href="/admin/tutorial-nuevo"
           variant="shadow"
           color="primary"
           startContent={<Icons.addOutline className="h-6 w-6" />}
         >
           Nuevo tutorial
-        </Button>
-      </Link>
+        </LinkButton>
+      </div>
     </main>
   );
 }

@@ -1,5 +1,6 @@
-import { db } from "@/server/db";
 import { Divider } from "@nextui-org/react";
+
+import { db } from "@/server/db";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
 

@@ -17,19 +17,7 @@ const formSchema = z.object({
 
 export function AddTutorialForm() {
   const router = useRouter();
-  const { mutate, isLoading } = api.topic.create.useMutation({
-    mutationKey: ["create-tutorial"],
-    onSuccess: (data) => {
-      toast.success("Tutorial creado");
-      router.push(`/admin/temas/${data.id}`);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSettled: () => {
-      reset();
-    },
-  });
+  const { mutateAsync, isLoading } = api.topic.create.useMutation();
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
@@ -45,7 +33,18 @@ export function AddTutorialForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    mutate(values);
+    try {
+      const data = await mutateAsync(values);
+
+      router.push(`/admin/tutorial/${data.id}`);
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Error al crear el tutorial");
+    } finally {
+      toast.success("Tutorial creado");
+      reset();
+      router.refresh();
+    }
   };
 
   return (

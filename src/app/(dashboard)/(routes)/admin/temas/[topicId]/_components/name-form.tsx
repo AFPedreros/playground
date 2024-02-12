@@ -1,4 +1,5 @@
 "use client";
+
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
@@ -29,7 +30,8 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticName, setOptimisticName] = useState(initialData.name);
 
-  const { isLoading, mutateAsync } = api.topic.update.useMutation();
+  const { mutateAsync, isLoading } = api.topic.update.useMutation();
+
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,

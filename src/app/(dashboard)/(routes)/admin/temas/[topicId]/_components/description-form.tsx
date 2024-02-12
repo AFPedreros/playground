@@ -10,25 +10,33 @@ import * as z from "zod";
 import { Form } from "@/components/form";
 import { InputField } from "@/components/input-field";
 
+import { TextareaField } from "@/components/textarea-field";
 import { Button } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 
 const formSchema = z.object({
-  name: z.string().min(3, "Se necesita un título con más de 3 caracteres"),
+  description: z
+    .string()
+    .min(3, "Se necesita una descripción con más de 3 caracteres"),
 });
 
-type TopicName = Pick<Topic, "name">;
+type TopicDescription = Pick<Topic, "description">;
 
-type NameFormProps = {
-  initialData: TopicName;
+type DescriptionFormProps = {
+  initialData: TopicDescription;
   topicId: string;
 };
 
-export function NameForm({ initialData, topicId }: NameFormProps) {
+export function DescriptionForm({
+  initialData,
+  topicId,
+}: DescriptionFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
-  const [optimisticName, setOptimisticName] = useState(initialData.name);
+  const [optimisticData, setOptimisticData] = useState(
+    initialData.description || "",
+  );
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
@@ -40,7 +48,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: optimisticName,
+      description: optimisticData,
     },
     mode: "onChange",
   });
@@ -50,10 +58,10 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const name = values.name;
-    setOptimisticName(name);
+    const description = values.description;
+    setOptimisticData(description);
     try {
-      await mutateAsync({ name, id: topicId });
+      await mutateAsync({ description, id: topicId });
     } catch (error) {
       console.log("Error", error);
       toast.error("Error al actualizar el nombre");
@@ -67,7 +75,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
     <div className="relative w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="text-lg font-medium text-foreground">
-          Nombre{" "}
+          Descripción{" "}
           <span className="text-sm font-light text-danger">(requerido)</span>
         </h4>
         <Button
@@ -91,20 +99,24 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           onClick={toggleEdit}
         />
       </div>
-      {!isEditing && <p className="mt-2">{optimisticName}</p>}
+      {!isEditing && <p className="mt-2">{optimisticData}</p>}
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <InputField
+          <TextareaField
             control={control}
-            name="name"
-            onClear={() => setValue("name", "")}
+            name="description"
+            onClear={() => setValue("description", "")}
             type="text"
-            isInvalid={(!!errors.name && dirtyFields.name) as boolean}
-            errorMessage={errors.name?.message}
+            isInvalid={
+              (!!errors.description && dirtyFields.description) as boolean
+            }
+            errorMessage={errors.description?.message}
             isDisabled={isLoading || isSubmitting}
+            minRows={5}
+            cacheMeasurements={true}
           />
           <Button
             type="submit"

@@ -16,19 +16,23 @@ import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 
 const formSchema = z.object({
-  name: z.string().min(3, "Se necesita un título con más de 3 caracteres"),
+  imageUrl: z
+    .string()
+    .min(3, "Se necesita una descripción con más de 3 caracteres"),
 });
 
-type TopicName = Pick<Topic, "name">;
+type TopicImageUrl = Pick<Topic, "imageUrl">;
 
-type NameFormProps = {
-  initialData: TopicName;
+type ImageFormProps = {
+  initialData: TopicImageUrl;
   topicId: string;
 };
 
-export function NameForm({ initialData, topicId }: NameFormProps) {
+export function ImageForm({ initialData, topicId }: ImageFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
-  const [optimisticName, setOptimisticName] = useState(initialData.name);
+  const [optimisticData, setOptimisticData] = useState(
+    initialData.imageUrl || "",
+  );
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
@@ -40,7 +44,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: optimisticName,
+      imageUrl: optimisticData,
     },
     mode: "onChange",
   });
@@ -50,10 +54,10 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const name = values.name;
-    setOptimisticName(name);
+    const imageUrl = values.imageUrl;
+    setOptimisticData(imageUrl);
     try {
-      await mutateAsync({ name, id: topicId });
+      await mutateAsync({ imageUrl, id: topicId });
     } catch (error) {
       console.log("Error", error);
       toast.error("Error al actualizar el nombre");
@@ -67,7 +71,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
     <div className="relative w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="text-lg font-medium text-foreground">
-          Nombre{" "}
+          Descripción{" "}
           <span className="text-sm font-light text-danger">(requerido)</span>
         </h4>
         <Button
@@ -91,7 +95,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           onClick={toggleEdit}
         />
       </div>
-      {!isEditing && <p className="mt-2">{optimisticName}</p>}
+      {!isEditing && <p className="mt-2">{optimisticData}</p>}
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"
@@ -99,11 +103,11 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
         >
           <InputField
             control={control}
-            name="name"
-            onClear={() => setValue("name", "")}
+            name="imageUrl"
+            onClear={() => setValue("imageUrl", "")}
             type="text"
-            isInvalid={(!!errors.name && dirtyFields.name) as boolean}
-            errorMessage={errors.name?.message}
+            isInvalid={(!!errors.imageUrl && dirtyFields.imageUrl) as boolean}
+            errorMessage={errors.imageUrl?.message}
             isDisabled={isLoading || isSubmitting}
           />
           <Button

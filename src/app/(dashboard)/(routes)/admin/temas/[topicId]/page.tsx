@@ -2,6 +2,8 @@ import { Divider } from "@nextui-org/react";
 
 import { db } from "@/server/db";
 import { redirect } from "next/navigation";
+import { DescriptionForm } from "./_components/description-form";
+import { ImageForm } from "./_components/image-form";
 import { NameForm } from "./_components/name-form";
 
 export default async function TopicIdPage({
@@ -29,7 +31,10 @@ export default async function TopicIdPage({
   return (
     <main className="flex h-full flex-col gap-y-6 lg:max-w-2xl">
       <div className="space-y-0.5">
-        <h1 className="text-2xl font-bold">Configuración del tema</h1>
+        <h1 className="text-2xl font-bold">
+          Configuración del tema:{" "}
+          <span className="text-primary">{topic.name}</span>
+        </h1>
         <p className="text-default-500">
           Completa todos los campos {completionText}.
         </p>
@@ -37,6 +42,8 @@ export default async function TopicIdPage({
       <Divider />
 
       <NameForm initialData={topic} topicId={topic.id} />
+      <DescriptionForm initialData={topic} topicId={topic.id} />
+      <ImageForm initialData={topic} topicId={topic.id} />
     </main>
   );
 }

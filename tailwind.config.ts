@@ -2,12 +2,13 @@ import { nextui } from "@nextui-org/react";
 import svgToDataUri from "mini-svg-data-uri";
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import { withUt } from "uploadthing/tw";
 
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
-export default {
+export default withUt({
   content: [
     "./src/**/*.tsx",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
@@ -65,7 +66,7 @@ export default {
       );
     },
   ],
-} satisfies Config;
+}) satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
   const allColors = flattenColorPalette(theme("colors"));

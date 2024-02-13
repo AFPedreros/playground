@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
-import { InputField } from "@/components/input-field";
 
 import { TextareaField } from "@/components/textarea-field";
 import { Button } from "@nextui-org/react";
@@ -35,7 +34,7 @@ export function DescriptionForm({
 }: DescriptionFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticData, setOptimisticData] = useState(
-    initialData.description || "",
+    initialData.description || ""
   );
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();

@@ -1,7 +1,11 @@
 import { Providers } from "@/app/providers";
 import "@/styles/globals.css";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { Inter } from "next/font/google";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { ourFileRouter } from "@/app/api/uploadthing/core";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <Providers>{children}</Providers>
+        
+        <Providers>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          {children}</Providers>
       </body>
     </html>
   );

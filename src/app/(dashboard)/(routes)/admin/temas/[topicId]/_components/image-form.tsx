@@ -8,9 +8,10 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
-import { InputField } from "@/components/input-field";
+import NextImage from "next/image";
 
-import { Button } from "@nextui-org/react";
+import { FileUpload } from "@/components/file-upload";
+import { Button, Image } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
@@ -37,9 +38,8 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
   const {
-    formState: { isValid, isSubmitting, dirtyFields, errors },
-    control,
-    setValue,
+    formState: { isValid, isSubmitting },
+
     handleSubmit,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,7 +71,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
     <div className="relative w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="text-lg font-medium text-foreground">
-          Descripción{" "}
+          Imagen{" "}
           <span className="text-sm font-light text-danger">(requerido)</span>
         </h4>
         <Button
@@ -95,20 +95,36 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           onClick={toggleEdit}
         />
       </div>
-      {!isEditing && <p className="mt-2">{optimisticData}</p>}
+      {!isEditing && !optimisticData && (
+        <p className="mt-2">Por favor sube una image</p>
+      )}
+      {!isEditing && !!optimisticData && (
+        <div className="relative mt-2 aspect-video">
+          <Image
+            className="w-full rounded-large object-cover"
+            removeWrapper
+            as={NextImage}
+            fill
+            src={optimisticData}
+            alt="Imagen del tema"
+            loading="eager"
+            isBlurred
+          />
+        </div>
+      )}
+
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <InputField
-            control={control}
-            name="imageUrl"
-            onClear={() => setValue("imageUrl", "")}
-            type="text"
-            isInvalid={(!!errors.imageUrl && dirtyFields.imageUrl) as boolean}
-            errorMessage={errors.imageUrl?.message}
-            isDisabled={isLoading || isSubmitting}
+          <FileUpload
+            endpoint="image"
+            onChange={(url) => {
+              if (url) {
+                onSubmit({ imageUrl: url });
+              }
+            }}
           />
           <Button
             type="submit"

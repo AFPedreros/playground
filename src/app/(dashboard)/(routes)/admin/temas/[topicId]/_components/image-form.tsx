@@ -37,11 +37,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
-  const {
-    formState: { isValid, isSubmitting },
-
-    handleSubmit,
-  } = useForm<z.infer<typeof formSchema>>({
+  const { handleSubmit } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       imageUrl: optimisticData,
@@ -96,7 +92,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
         />
       </div>
       {!isEditing && !optimisticData && (
-        <p className="mt-2">Por favor sube una image</p>
+        <p className="mt-2 text-default-500">Por favor sube una image</p>
       )}
       {!isEditing && !!optimisticData && (
         <div className="relative mt-2 aspect-video">
@@ -126,14 +122,6 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
               }
             }}
           />
-          <Button
-            type="submit"
-            color="primary"
-            isLoading={isLoading || isSubmitting}
-            isDisabled={!isValid || isSubmitting}
-          >
-            Guardar
-          </Button>
         </Form>
       )}
     </div>

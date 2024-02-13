@@ -34,7 +34,7 @@ export function DescriptionForm({
 }: DescriptionFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticData, setOptimisticData] = useState(
-    initialData.description || ""
+    initialData.description || "",
   );
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
@@ -98,6 +98,11 @@ export function DescriptionForm({
           onClick={toggleEdit}
         />
       </div>
+      {!isEditing && !optimisticData && (
+        <p className="mt-2 text-default-500">
+          Por favor escribe una descripción
+        </p>
+      )}
       {!isEditing && <p className="mt-2">{optimisticData}</p>}
       {!!isEditing && (
         <Form

@@ -1,13 +1,17 @@
+import { GridItem } from "@/app/(dashboard)/_components/grid-item";
 import { Icon } from "@/components/icon";
 import { LinkButton } from "@/components/link-button";
 import { db } from "@/server/db";
-import Link from "next/link";
 
 export default async function AdminTopicPage() {
-  const topics = await db.topic.findMany();
+  const topics = await db.topic.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return (
-    <main className="flex h-full flex-col gap-y-6 lg:max-w-2xl">
-      <div>
+    <main className="flex h-full flex-col gap-y-6">
+      <div className="lg:max-w-2xl">
         <LinkButton
           href="/admin//tema-nuevo"
           variant="shadow"
@@ -19,9 +23,16 @@ export default async function AdminTopicPage() {
           Nuevo tema
         </LinkButton>
       </div>
-      {topics.map((topic) => (
-        <Link href={`/admin/temas/${topic.id}`}>{topic.name}</Link>
-      ))}
+      <div className="grid grid-cols-1 gap-5 w-full p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {topics.map((topic) => (
+          <GridItem
+            id={topic.id}
+            name={topic.name}
+            description={topic.description || ""}
+            imageSrc={topic.imageUrl || ""}
+          />
+        ))}
+      </div>
     </main>
   );
 }

@@ -21,7 +21,7 @@ export function TipTapEditor({
       StarterKit.configure({
         heading: {
           HTMLAttributes: {
-            class: "text-2xl font-bold",
+            class: "text-4xl font-bold",
           },
         },
         paragraph: {

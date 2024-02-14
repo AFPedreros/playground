@@ -2,6 +2,7 @@
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+
 import { Toolbar } from "./toolbar";
 
 type TipTapEditorProps = {
@@ -16,7 +17,30 @@ export function TipTapEditor({
   onChange,
 }: TipTapEditorProps) {
   const editor = useEditor({
-    extensions: [StarterKit.configure()],
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          HTMLAttributes: {
+            class: "text-2xl font-bold",
+          },
+        },
+        paragraph: {
+          HTMLAttributes: {
+            class: "text-default-500 inline",
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc list-inside",
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal list-inside",
+          },
+        },
+      }),
+    ],
     content: description,
     editorProps: {
       attributes: {
@@ -29,8 +53,9 @@ export function TipTapEditor({
   });
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-full">
       <Toolbar editor={editor} />
+
       <EditorContent editor={editor} />
     </div>
   );

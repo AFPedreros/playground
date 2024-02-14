@@ -9,9 +9,10 @@ import * as z from "zod";
 
 import { Form } from "@/components/form";
 
-import { TextareaField } from "@/components/textarea-field";
-import { Button, ScrollShadow, divider } from "@nextui-org/react";
+import { Button, ScrollShadow } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 import { TipTapEditor } from "../../../_components/tiptap-editor";
@@ -42,9 +43,8 @@ export function DescriptionForm({
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
   const {
-    formState: { isValid, isSubmitting, dirtyFields, errors },
+    formState: { isValid, isSubmitting },
     control,
-    setValue,
     handleSubmit,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +52,30 @@ export function DescriptionForm({
       description: optimisticData,
     },
     mode: "onChange",
+  });
+
+  const editor = useEditor({
+    editable: false,
+    content: optimisticData,
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          HTMLAttributes: {
+            class: "text-2xl font-bold",
+          },
+        },
+        paragraph: {
+          HTMLAttributes: {
+            class: "text-default-500 inline",
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc list-inside",
+          },
+        },
+      }),
+    ],
   });
 
   const toggleEdit = () => {
@@ -71,6 +95,8 @@ export function DescriptionForm({
       toggleEdit();
     }
   };
+
+  console.log("Description", optimisticData);
 
   return (
     <div className="relative col-span-2 h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
@@ -106,8 +132,8 @@ export function DescriptionForm({
         </p>
       )}
       {!isEditing && (
-        <ScrollShadow className="mt-2 max-h-60">
-          <p>{optimisticData}</p>
+        <ScrollShadow className="mt-2 max-h-80">
+          <EditorContent editor={editor} />
         </ScrollShadow>
       )}
       {!!isEditing && (
@@ -115,25 +141,12 @@ export function DescriptionForm({
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* <TextareaField
-            control={control}
-            name="description"
-            onClear={() => setValue("description", "")}
-            type="text"
-            isInvalid={
-              (!!errors.description && dirtyFields.description) as boolean
-            }
-            errorMessage={errors.description?.message}
-            isDisabled={isLoading || isSubmitting}
-            minRows={5}
-            cacheMeasurements={true}
-          /> */}
           <Controller
             name="description"
             control={control}
             render={({ field }) => (
               <TipTapEditor
-                className="[&>p]:h-40 w-full [&>p]:overflow-y-auto rounded-large border-medium border-default-200 [&>p]:mx-4 [&>p]:my-2 shadow-sm hover:border-default-400"
+                className=" w-full min-h-40 rounded-large border-medium border-default-200 px-4 py-2 shadow-sm hover:border-default-400"
                 description={field.value}
                 onChange={field.onChange}
               />

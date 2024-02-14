@@ -1,30 +1,33 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { Button, VisuallyHidden, cn, useCheckbox } from "@nextui-org/react";
-import { useToggle } from "usehooks-ts";
+import { Button, cn } from "@nextui-org/react";
 
 type ToolbarItemProps = {
   icon?: string;
+  pressed: boolean;
+  onPressedChange: () => void;
 };
 
-export function ToolbarItem({ icon }: ToolbarItemProps) {
-  const [isSelected, setIsSelected] = useToggle(false);
-
+export function ToolbarItem({
+  icon,
+  pressed,
+  onPressedChange,
+}: ToolbarItemProps) {
   return (
     <Button
       isIconOnly
       aria-label={icon}
-      className={cn(isSelected && "bg-primary-500 text-primary-foreground")}
+      className={cn(pressed && "bg-primary-500 text-primary-foreground")}
       radius="sm"
       size="sm"
       variant="bordered"
-      onClick={setIsSelected}
+      onClick={onPressedChange}
     >
       {icon && (
         <Icon
           className={cn("text-default-400", {
-            "text-primary-foreground": isSelected,
+            "text-primary-foreground": pressed,
           })}
           icon={icon}
           width={16}

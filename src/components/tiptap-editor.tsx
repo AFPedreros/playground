@@ -53,7 +53,7 @@ export function TipTapEditor({
   });
 
   return (
-    <div className="space-y-1 w-full">
+    <div className="w-full space-y-1">
       <Toolbar editor={editor} />
 
       <EditorContent editor={editor} />

@@ -1,9 +1,9 @@
 import { Input } from "@nextui-org/react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
-type InputFieldProps<T extends FieldValues> = {
-  control: Control<T>;
-  name: Path<T>;
+type InputFieldProps<TFieldValues extends FieldValues> = {
+  control: Control<TFieldValues>;
+  name: Path<TFieldValues>;
   onClear: () => void;
   label?: string;
   type: string;

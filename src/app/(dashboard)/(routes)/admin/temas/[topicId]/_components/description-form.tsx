@@ -9,13 +9,13 @@ import * as z from "zod";
 
 import { Form } from "@/components/form";
 
+import { TipTapEditor } from "@/components/tiptap-editor";
 import { Button, ScrollShadow } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
-import { TipTapEditor } from "../../../_components/tiptap-editor";
 
 const formSchema = z.object({
   description: z
@@ -96,8 +96,6 @@ export function DescriptionForm({
     }
   };
 
-  console.log("Description", optimisticData);
-
   return (
     <div className="relative col-span-2 h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
@@ -146,7 +144,7 @@ export function DescriptionForm({
             control={control}
             render={({ field }) => (
               <TipTapEditor
-                className=" w-full min-h-40 rounded-large border-medium border-default-200 px-4 py-2 shadow-sm hover:border-default-400"
+                className="min-h-40 w-full rounded-large border-medium border-default-200 px-4 py-2 shadow-sm hover:border-default-400"
                 description={field.value}
                 onChange={field.onChange}
               />

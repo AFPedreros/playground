@@ -64,7 +64,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
   };
 
   return (
-    <div className="relative w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
+    <div className="relative h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="text-lg font-medium text-foreground">
           Imagen{" "}

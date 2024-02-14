@@ -29,8 +29,8 @@ export default async function TopicIdPage({
   const completionText = `(${filledFields}/${totalFields}) completado`;
 
   return (
-    <main className="flex h-full flex-col gap-y-6 lg:max-w-2xl">
-      <div className="space-y-0.5">
+    <main className="flex h-full flex-col gap-y-6">
+      <div className="space-y-0.5 lg:max-w-2xl">
         <h1 className="text-2xl font-bold">
           Configuración del tema:{" "}
           <span className="text-primary">{topic.name}</span>
@@ -41,9 +41,14 @@ export default async function TopicIdPage({
       </div>
       <Divider />
 
-      <NameForm initialData={topic} topicId={topic.id} />
-      <DescriptionForm initialData={topic} topicId={topic.id} />
-      <ImageForm initialData={topic} topicId={topic.id} />
+      <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="flex flex-col gap-5">
+          <NameForm initialData={topic} topicId={topic.id} />
+          <NameForm initialData={topic} topicId={topic.id} />
+        </div>
+        <ImageForm initialData={topic} topicId={topic.id} />
+        <DescriptionForm initialData={topic} topicId={topic.id} />
+      </div>
     </main>
   );
 }

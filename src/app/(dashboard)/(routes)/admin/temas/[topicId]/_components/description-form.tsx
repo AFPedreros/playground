@@ -3,22 +3,24 @@
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 
 import { TextareaField } from "@/components/textarea-field";
-import { Button } from "@nextui-org/react";
+import { Button, ScrollShadow, divider } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
+import { TipTapEditor } from "../../../_components/tiptap-editor";
 
 const formSchema = z.object({
   description: z
     .string()
-    .min(3, "Se necesita una descripción con más de 3 caracteres"),
+    .min(3, "Se necesita una descripción con más de 3 caracteres")
+    .trim(),
 });
 
 type TopicDescription = Pick<Topic, "description">;
@@ -71,7 +73,7 @@ export function DescriptionForm({
   };
 
   return (
-    <div className="relative w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
+    <div className="relative col-span-2 h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
       <div className="flex flex-row items-center justify-between gap-x-4">
         <h4 className="text-lg font-medium text-foreground">
           Descripción{" "}
@@ -103,13 +105,17 @@ export function DescriptionForm({
           Por favor escribe una descripción
         </p>
       )}
-      {!isEditing && <p className="mt-2">{optimisticData}</p>}
+      {!isEditing && (
+        <ScrollShadow className="mt-2 max-h-60">
+          <p>{optimisticData}</p>
+        </ScrollShadow>
+      )}
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <TextareaField
+          {/* <TextareaField
             control={control}
             name="description"
             onClear={() => setValue("description", "")}
@@ -121,6 +127,17 @@ export function DescriptionForm({
             isDisabled={isLoading || isSubmitting}
             minRows={5}
             cacheMeasurements={true}
+          /> */}
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <TipTapEditor
+                className="[&>p]:h-40 w-full [&>p]:overflow-y-auto rounded-large border-medium border-default-200 [&>p]:mx-4 [&>p]:my-2 shadow-sm hover:border-default-400"
+                description={field.value}
+                onChange={field.onChange}
+              />
+            )}
           />
           <Button
             type="submit"

@@ -2,6 +2,7 @@ import { Textarea } from "@nextui-org/react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 type TextareaProps<T extends FieldValues> = {
+  className?: string;
   control: Control<T>;
   name: Path<T>;
   onClear: () => void;
@@ -17,6 +18,7 @@ type TextareaProps<T extends FieldValues> = {
 };
 
 export function TextareaField<T extends FieldValues>({
+  className,
   control,
   name,
   onClear,
@@ -36,6 +38,7 @@ export function TextareaField<T extends FieldValues>({
       control={control}
       render={({ field }) => (
         <Textarea
+          className={className}
           fullWidth
           onClear={onClear}
           radius="full"

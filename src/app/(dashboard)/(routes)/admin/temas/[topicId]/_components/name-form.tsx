@@ -91,7 +91,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           onClick={toggleEdit}
         />
       </div>
-      {!isEditing && <p className="mt-2">{optimisticName}</p>}
+      {!isEditing && <p className="mt-2 text-default-500">{optimisticName}</p>}
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"

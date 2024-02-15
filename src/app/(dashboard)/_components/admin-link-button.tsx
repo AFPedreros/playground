@@ -17,7 +17,7 @@ export function AdminLinkButton() {
       variant="ghost"
       startContent={
         isAdminPath ? (
-          <Icon icon="solar:alt-arrow-left-linear" />
+          <Icon icon="solar:alt-arrow-left-linear" height={24} width={24} />
         ) : (
           <Icon icon="solar:shield-user-linear" height={24} width={24} />
         )

@@ -11,6 +11,7 @@ import { Form } from "@/components/form";
 import NextImage from "next/image";
 
 import { FileUpload } from "@/components/file-upload";
+import { FileUploader } from "@/components/file-uploader";
 import { Button, Image } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
@@ -114,14 +115,15 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <FileUpload
+          {/* <FileUpload
             endpoint="image"
             onChange={(url) => {
               if (url) {
                 onSubmit({ imageUrl: url });
               }
             }}
-          />
+          /> */}
+          <FileUploader />
         </Form>
       )}
     </div>

@@ -1,5 +1,5 @@
-import { type FileWithPath } from "react-dropzone";
-
-export type FileWithPreview = FileWithPath & {
+export interface FileWithPreview {
+  name: string;
+  size: number;
   preview: string;
-};
+}

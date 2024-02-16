@@ -3,14 +3,13 @@
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 import NextImage from "next/image";
 
-import { FileUpload } from "@/components/file-upload";
 import { FileUploader } from "@/components/file-uploader";
 import { Button, Image } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
@@ -18,9 +17,7 @@ import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 
 const formSchema = z.object({
-  imageUrl: z
-    .string()
-    .min(3, "Se necesita una descripción con más de 3 caracteres"),
+  imageUrl: z.string(),
 });
 
 type TopicImageUrl = Pick<Topic, "imageUrl">;
@@ -38,7 +35,11 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
 
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
-  const { handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const {
+    formState: { isValid, isSubmitting },
+    control,
+    handleSubmit,
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       imageUrl: optimisticData,
@@ -57,9 +58,9 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
       await mutateAsync({ imageUrl, id: topicId });
     } catch (error) {
       console.log("Error", error);
-      toast.error("Error al actualizar el nombre");
+      toast.error("Error al actualizar la imagen");
     } finally {
-      toast.success("Nombre actualizado correctamente");
+      toast.success("Imagen actualizada correctamente");
       toggleEdit();
     }
   };
@@ -115,15 +116,19 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* <FileUpload
-            endpoint="image"
-            onChange={(url) => {
-              if (url) {
-                onSubmit({ imageUrl: url });
-              }
-            }}
-          /> */}
-          <FileUploader />
+          <Controller
+            name="imageUrl"
+            control={control}
+            render={({ field }) => <FileUploader />}
+          />
+          <Button
+            type="submit"
+            color="primary"
+            isLoading={isLoading || isSubmitting}
+            isDisabled={!isValid || isSubmitting}
+          >
+            Guardar
+          </Button>
         </Form>
       )}
     </div>

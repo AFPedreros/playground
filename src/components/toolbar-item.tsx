@@ -18,7 +18,7 @@ export function ToolbarItem({
     <Button
       isIconOnly
       aria-label={icon}
-      className={cn(pressed && "bg-primary-500 text-primary-foreground")}
+      className={cn({ "bg-primary-500 text-primary-foreground": pressed })}
       radius="sm"
       size="sm"
       variant="bordered"

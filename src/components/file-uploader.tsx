@@ -71,7 +71,7 @@ export function FileUploader() {
       {files.length === 0 && (
         <div
           className={cn(
-            isDragActive && "bg-default-100/50 border-default-400",
+            { "bg-default-100/50 border-default-400": isDragActive },
             "min-h-40 cursor-pointer flex flex-col items-center justify-center w-full rounded-large text-default-500 border-medium border-default-200 px-4 py-2 shadow-sm border-dashed hover:border-default-400 hover:bg-default-100/50 text-center  bg-default-100 transition-all duration-300",
           )}
           {...getRootProps()}

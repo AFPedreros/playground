@@ -162,52 +162,6 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
             renderItem(item)
           )
         }
-        {/* {items.map((item) => {
-          return (
-            <ListboxItem
-              textValue={item.title}
-              key={item.key}
-              startContent={
-                isCompact ? null : item.icon ? (
-                  <Icon
-                    className={cn(
-                      "text-default-500 group-data-[selected=true]:text-primary",
-                      iconClassName,
-                    )}
-                    icon={item.icon}
-                    width={24}
-                  />
-                ) : (
-                  item.startContent ?? null
-                )
-              }
-              endContent={
-                isCompact || hideEndContent ? null : item.endContent ?? null
-              }
-              onPress={() => router.push(item.href || "")}
-            >
-              {!isCompact && item.title}
-              {isCompact && (
-                <Tooltip content={item.title} placement="right">
-                  <div className="flex w-full items-center justify-center">
-                    {item.icon ? (
-                      <Icon
-                        className={cn(
-                          "text-default-500 group-data-[selected=true]:text-primary",
-                          iconClassName,
-                        )}
-                        icon={item.icon}
-                        width={24}
-                      />
-                    ) : (
-                      item.startContent ?? null
-                    )}
-                  </div>
-                </Tooltip>
-              )}
-            </ListboxItem>
-          );
-        })} */}
       </Listbox>
     );
   },

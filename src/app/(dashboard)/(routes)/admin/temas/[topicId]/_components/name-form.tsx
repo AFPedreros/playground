@@ -3,14 +3,13 @@
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
-import { InputField } from "@/components/input-field";
 
-import { Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
@@ -97,14 +96,25 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           className="mt-6 flex w-full flex-col items-start gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <InputField
-            control={control}
+          <Controller
             name="name"
-            onClear={() => setValue("name", "")}
-            type="text"
-            isInvalid={(!!errors.name && dirtyFields.name) as boolean}
-            errorMessage={errors.name?.message}
-            isDisabled={isLoading || isSubmitting}
+            control={control}
+            render={({ field }) => (
+              <Input
+                fullWidth
+                isClearable
+                onClear={() => setValue("name", "")}
+                radius="full"
+                variant="bordered"
+                type="text"
+                labelPlacement="outside"
+                isRequired
+                isInvalid={!!errors.name && dirtyFields.name}
+                errorMessage={errors.name?.message}
+                isDisabled={isLoading || isSubmitting}
+                {...field}
+              />
+            )}
           />
           <Button
             type="submit"

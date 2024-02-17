@@ -1,19 +1,22 @@
 "use client";
 
+import { cn } from "@nextui-org/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-
+import { useEffect } from "react";
 import { Toolbar } from "./toolbar";
 
 type TipTapEditorProps = {
   className: string;
   description: string;
+  isValid: boolean;
   onChange: (richText: string) => void;
 };
 
 export function TipTapEditor({
   className,
   description,
+  isValid,
   onChange,
 }: TipTapEditorProps) {
   const editor = useEditor({
@@ -41,6 +44,7 @@ export function TipTapEditor({
         },
       }),
     ],
+    injectCSS: false,
     content: description,
     editorProps: {
       attributes: {
@@ -52,10 +56,26 @@ export function TipTapEditor({
     },
   });
 
+  useEffect(() => {
+    if (!editor) return;
+    editor.setOptions({
+      editorProps: {
+        attributes: {
+          class: cn(
+            "min-h-40 w-full rounded-large border-medium  px-4 py-2 shadow-sm ",
+            {
+              "border-danger focus:outline-none": !isValid,
+              "hover:border-default-400 border-default-200": isValid,
+            },
+          ),
+        },
+      },
+    });
+  }, [isValid, editor]);
+
   return (
     <div className="w-full space-y-1">
       <Toolbar editor={editor} />
-
       <EditorContent editor={editor} />
     </div>
   );

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { adminProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { utapi } from "@/server/uploadthing";
 
 export const topicRouter = createTRPCRouter({
   create: adminProcedure
@@ -25,6 +26,18 @@ export const topicRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, ...updateData } = input;
+
+      if (input.imageUrl) {
+        const imageTopic = await ctx.db.topic.findUnique({
+          where: {
+            id: id,
+          },
+        });
+
+        if (imageTopic?.imageUrl) {
+          await utapi.deleteFiles(imageTopic.imageUrl.split("/").pop()!);
+        }
+      }
 
       return ctx.db.topic.update({
         where: { id },

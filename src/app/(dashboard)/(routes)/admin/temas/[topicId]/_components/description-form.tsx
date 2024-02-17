@@ -20,7 +20,7 @@ import { useToggle } from "usehooks-ts";
 const formSchema = z.object({
   description: z
     .string()
-    .min(3, "Se necesita una descripción con más de 3 caracteres")
+    .min(50, "Se necesita una descripción con más de 10 caracteres")
     .trim(),
 });
 
@@ -43,7 +43,7 @@ export function DescriptionForm({
   const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
   const {
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, errors },
     control,
     handleSubmit,
   } = useForm<z.infer<typeof formSchema>>({
@@ -84,6 +84,7 @@ export function DescriptionForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const description = values.description;
+    editor?.commands.setContent(description);
     setOptimisticData(description);
     try {
       await mutateAsync({ description, id: topicId });
@@ -130,7 +131,7 @@ export function DescriptionForm({
         </p>
       )}
       {!isEditing && (
-        <ScrollShadow className="mt-2 max-h-80">
+        <ScrollShadow className="mt-2 max-h-80 py-2">
           <EditorContent editor={editor} />
         </ScrollShadow>
       )}
@@ -143,11 +144,24 @@ export function DescriptionForm({
             name="description"
             control={control}
             render={({ field }) => (
-              <TipTapEditor
-                className="min-h-40 w-full rounded-large border-medium border-default-200 px-4 py-2 shadow-sm hover:border-default-400"
-                description={field.value}
-                onChange={field.onChange}
-              />
+              <div className="w-full">
+                <TipTapEditor
+                  className="min-h-40 w-full rounded-large border-medium px-4 py-2 shadow-sm"
+                  isValid={!errors.description}
+                  description={field.value}
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                />
+                {!isValid && (
+                  <div
+                    className="p-1 text-tiny text-danger"
+                    data-slot="error-message"
+                  >
+                    {errors.description?.message}
+                  </div>
+                )}
+              </div>
             )}
           />
           <Button

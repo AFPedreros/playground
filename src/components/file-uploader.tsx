@@ -23,18 +23,12 @@ import {
 
 import type { FileWithPreview } from "@/types";
 
-export function FileUploader() {
+type FileUploaderProps = {
+  onChange: (newUrl: string) => void;
+};
+
+export function FileUploader({ onChange }: FileUploaderProps) {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const filesWithPreview = acceptedFiles.map((file) => {
-      return {
-        name: file.name,
-        size: file.size,
-        preview: URL.createObjectURL(file),
-      };
-    });
-    setFiles(filesWithPreview);
-  }, []);
 
   const { startUpload, permittedFileInfo } = useUploadThing("image", {
     onClientUploadComplete: () => {
@@ -47,6 +41,24 @@ export function FileUploader() {
       alert("upload has begun");
     },
   });
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const filesWithPreview = acceptedFiles.map((file) => {
+      return {
+        name: file.name,
+        size: file.size,
+        preview: URL.createObjectURL(file),
+      };
+    });
+    setFiles(filesWithPreview);
+
+    onChange(filesWithPreview[0]?.preview || "");
+  }, []);
+
+  const handleCloseImage = () => {
+    setFiles([]);
+    onChange("");
+  };
 
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
@@ -66,6 +78,7 @@ export function FileUploader() {
 
     return size;
   };
+
   return (
     <>
       {files.length === 0 && (
@@ -96,7 +109,6 @@ export function FileUploader() {
             <TableColumn>IMAGEN</TableColumn>
             <TableColumn>NOMBRE</TableColumn>
             <TableColumn>TAMAÑO</TableColumn>
-            {/* <TableColumn>ACCIONES</TableColumn> */}
           </TableHeader>
           <TableBody>
             <TableRow key="1">
@@ -110,7 +122,7 @@ export function FileUploader() {
                       radius="full"
                       size="sm"
                       variant="light"
-                      onPress={() => setFiles([])}
+                      onPress={handleCloseImage}
                     >
                       <Icon
                         className="text-foreground"
@@ -122,7 +134,7 @@ export function FileUploader() {
                 >
                   <Image
                     alt="uploaded image cover"
-                    className="aspect-video h-14 rounded-small border-small border-default-200/50 object-cover"
+                    className="aspect-video h-14 min-w-24 rounded-small border-small border-default-200/50 object-cover"
                     src={files[0]?.preview}
                   />
                 </Badge>

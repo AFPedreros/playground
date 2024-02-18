@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 
 const formSchema = z.object({
-  imageUrl: z.string(),
+  imageUrl: z.string().min(1, "Se necesita una imagen"),
 });
 
 type TopicImageUrl = Pick<Topic, "imageUrl">;
@@ -42,7 +42,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      imageUrl: optimisticData,
+      imageUrl: "",
     },
     mode: "onChange",
   });
@@ -119,7 +119,13 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           <Controller
             name="imageUrl"
             control={control}
-            render={({ field }) => <FileUploader />}
+            render={({ field }) => (
+              <FileUploader
+                onChange={(newUrl) => {
+                  field.onChange(newUrl);
+                }}
+              />
+            )}
           />
           <Button
             type="submit"

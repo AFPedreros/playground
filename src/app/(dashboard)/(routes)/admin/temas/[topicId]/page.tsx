@@ -41,7 +41,7 @@ export default async function TopicIdPage({
       </div>
       <Divider />
 
-      <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="lg:grid flex flex-col w-full  gap-5">
         <div className="flex flex-col gap-5">
           <NameForm initialData={topic} topicId={topic.id} />
           <NameForm initialData={topic} topicId={topic.id} />

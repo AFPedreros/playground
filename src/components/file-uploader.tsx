@@ -5,7 +5,7 @@ import { generateClientDropzoneAccept } from "uploadthing/client";
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { Icon } from "@iconify/react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import {
   Badge,
@@ -24,36 +24,30 @@ import {
 import type { FileWithPreview } from "@/types";
 
 type FileUploaderProps = {
+  files: FileWithPreview[];
+  setFiles: (files: FileWithPreview[]) => void;
   onChange: (newUrl: string) => void;
 };
 
-export function FileUploader({ onChange }: FileUploaderProps) {
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+export function FileUploader({ files, setFiles, onChange }: FileUploaderProps) {
+  const { permittedFileInfo } = useUploadThing("image");
 
-  const { startUpload, permittedFileInfo } = useUploadThing("image", {
-    onClientUploadComplete: () => {
-      alert("uploaded successfully!");
-    },
-    onUploadError: () => {
-      alert("error occurred while uploading");
-    },
-    onUploadBegin: () => {
-      alert("upload has begun");
-    },
-  });
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const filesWithPreview = acceptedFiles.map((file) => {
+        return {
+          file,
+          name: file.name,
+          size: file.size,
+          preview: URL.createObjectURL(file),
+        };
+      });
+      setFiles(filesWithPreview);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const filesWithPreview = acceptedFiles.map((file) => {
-      return {
-        name: file.name,
-        size: file.size,
-        preview: URL.createObjectURL(file),
-      };
-    });
-    setFiles(filesWithPreview);
-
-    onChange(filesWithPreview[0]?.preview || "");
-  }, []);
+      onChange(filesWithPreview[0]?.preview || "");
+    },
+    [setFiles, onChange],
+  );
 
   const handleCloseImage = () => {
     setFiles([]);
@@ -70,11 +64,7 @@ export function FileUploader({ onChange }: FileUploaderProps) {
   });
 
   const getSize = (fileSize: number) => {
-    let size = `${(fileSize / 1024).toFixed(0)} KB`;
-
-    if (fileSize >= 1024 * 1024) {
-      size = `${(fileSize / 1024 / 1024).toFixed(1)} MB`;
-    }
+    const size = `${(fileSize / 1024 / 1024).toFixed(1)} MB`;
 
     return size;
   };
@@ -104,65 +94,75 @@ export function FileUploader({ onChange }: FileUploaderProps) {
       <input {...getInputProps()} />
 
       {files[0] && (
-        <Table aria-label="Example empty table">
-          <TableHeader>
-            <TableColumn>IMAGEN</TableColumn>
-            <TableColumn>NOMBRE</TableColumn>
-            <TableColumn>TAMAÑO</TableColumn>
-          </TableHeader>
-          <TableBody>
-            <TableRow key="1">
-              <TableCell>
-                <Badge
-                  isOneChar
-                  className="opacity-0 group-hover:opacity-100"
-                  content={
-                    <Button
-                      isIconOnly
-                      radius="full"
-                      size="sm"
-                      variant="light"
-                      onPress={handleCloseImage}
-                    >
-                      <Icon
-                        className="text-foreground"
-                        icon="iconamoon:close-thin"
-                        width={16}
-                      />
-                    </Button>
-                  }
-                >
-                  <Image
-                    alt="uploaded image cover"
-                    className="aspect-video h-14 min-w-24 rounded-small border-small border-default-200/50 object-cover"
-                    src={files[0]?.preview}
-                  />
-                </Badge>
-              </TableCell>
-              <TableCell className="text-default-500">
-                {files[0]?.name}
-              </TableCell>
-              {
+        <div className="w-full">
+          <Table aria-label="Example empty table">
+            <TableHeader>
+              <TableColumn>IMAGEN</TableColumn>
+              <TableColumn>NOMBRE</TableColumn>
+              <TableColumn>TAMAÑO</TableColumn>
+            </TableHeader>
+            <TableBody>
+              <TableRow key="1">
                 <TableCell>
-                  <Chip
-                    className="text-nowrap"
-                    color={
-                      files[0].size > 3 * 1024 * 1024
-                        ? "warning"
-                        : files[0].size > 4 * 1024 * 1024
-                          ? "danger"
-                          : "success"
+                  <Badge
+                    isOneChar
+                    className="opacity-0 group-hover:opacity-100"
+                    content={
+                      <Button
+                        isIconOnly
+                        radius="full"
+                        size="sm"
+                        variant="light"
+                        onPress={handleCloseImage}
+                      >
+                        <Icon
+                          className="text-foreground"
+                          icon="iconamoon:close-thin"
+                          width={16}
+                        />
+                      </Button>
                     }
-                    size="sm"
-                    variant="flat"
                   >
-                    {getSize(files[0].size || 0)}
-                  </Chip>
+                    <Image
+                      alt="uploaded image cover"
+                      className="aspect-video h-14 min-w-24 rounded-small border-small border-default-200/50 object-cover"
+                      src={files[0]?.preview}
+                    />
+                  </Badge>
                 </TableCell>
-              }
-            </TableRow>
-          </TableBody>
-        </Table>
+                <TableCell className="text-default-500">
+                  {files[0]?.name}
+                </TableCell>
+                {
+                  <TableCell>
+                    <Chip
+                      className="text-nowrap"
+                      color={
+                        files[0].size < 3 * 1024 * 1024
+                          ? "success"
+                          : files[0].size < 4 * 1024 * 1024
+                            ? "warning"
+                            : "danger"
+                      }
+                      size="sm"
+                      variant="flat"
+                    >
+                      {getSize(files[0].size || 0)}
+                    </Chip>
+                  </TableCell>
+                }
+              </TableRow>
+            </TableBody>
+          </Table>
+          {files[0].size > 4 * 1024 * 1024 && (
+            <div
+              className="p-1 text-tiny text-danger"
+              data-slot="error-message"
+            >
+              El archivo debe tener un tamaño máximo de 4 MB
+            </div>
+          )}
+        </div>
       )}
     </>
   );

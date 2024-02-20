@@ -1,4 +1,5 @@
 import { Logo } from "@/components/logo";
+import { TransitionPage } from "@/components/transition-page";
 import { getServerAuthSession } from "@/server/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -9,37 +10,39 @@ export default async function SignInPage() {
 
   if (session) redirect("/tutoriales");
   return (
-    <div className="relative flex h-screen w-full">
-      <Link
-        href="/"
-        className="absolute left-2 top-5 flex items-center lg:left-5"
-      >
-        <Logo />
-        <span className="ml-2 text-small font-medium">ROADMAP</span>
-      </Link>
+    <TransitionPage>
+      <main className="relative flex h-screen w-full">
+        <Link
+          href="/"
+          className="absolute left-2 top-5 flex items-center lg:left-5"
+        >
+          <Logo />
+          <span className="ml-2 text-small font-medium">ROADMAP</span>
+        </Link>
 
-      <SignInForm />
+        <SignInForm />
 
-      <div
-        className="relative hidden w-1/2 flex-col-reverse rounded-medium rounded-br-none rounded-tr-none p-10 shadow-small lg:flex"
-        style={{
-          backgroundImage:
-            "url(https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/white-building.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="flex flex-col items-end gap-4">
-          <p className="w-full text-right text-2xl text-black/60">
-            <span className="font-medium">“</span>
-            <span className="font-normal italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget
-              augue nec massa volutpat aliquet.
-            </span>
-            <span className="font-medium">”</span>
-          </p>
+        <div
+          className="relative hidden w-1/2 flex-col-reverse rounded-medium rounded-br-none rounded-tr-none p-10 shadow-small lg:flex"
+          style={{
+            backgroundImage:
+              "url(https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/white-building.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="flex flex-col items-end gap-4">
+            <p className="w-full text-right text-2xl text-black/60">
+              <span className="font-medium">“</span>
+              <span className="font-normal italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                eget augue nec massa volutpat aliquet.
+              </span>
+              <span className="font-medium">”</span>
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </TransitionPage>
   );
 }

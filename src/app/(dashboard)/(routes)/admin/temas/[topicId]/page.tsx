@@ -1,5 +1,6 @@
 import { Divider } from "@nextui-org/react";
 
+import { TransitionPage } from "@/components/transition-page";
 import { db } from "@/server/db";
 import { redirect } from "next/navigation";
 import { DescriptionForm } from "./_components/description-form";
@@ -29,25 +30,27 @@ export default async function TopicIdPage({
   const completionText = `(${filledFields}/${totalFields}) completado`;
 
   return (
-    <main className="flex h-full flex-col gap-y-6">
-      <div className="space-y-0.5 lg:max-w-2xl">
-        <h1 className="text-2xl font-bold">
-          Configuración del tema:{" "}
-          <span className="text-primary">{topic.name}</span>
-        </h1>
-        <p className="text-default-500">
-          Completa todos los campos {completionText}.
-        </p>
-      </div>
-      <Divider />
-
-      <div className="flex w-full flex-col gap-5 lg:grid">
-        <div className="flex flex-col gap-5">
-          <NameForm initialData={topic} topicId={topic.id} />
+    <TransitionPage>
+      <main className="flex h-full flex-col gap-y-6">
+        <div className="space-y-0.5 lg:max-w-2xl">
+          <h1 className="text-2xl font-bold">
+            Configuración del tema:{" "}
+            <span className="text-primary">{topic.name}</span>
+          </h1>
+          <p className="text-default-500">
+            Completa todos los campos {completionText}.
+          </p>
         </div>
-        <ImageForm initialData={topic} topicId={topic.id} />
-        <DescriptionForm initialData={topic} topicId={topic.id} />
-      </div>
-    </main>
+        <Divider />
+
+        <div className="flex w-full flex-col gap-5 lg:grid">
+          <div className="flex flex-col gap-5">
+            <NameForm initialData={topic} topicId={topic.id} />
+          </div>
+          <ImageForm initialData={topic} topicId={topic.id} />
+          <DescriptionForm initialData={topic} topicId={topic.id} />
+        </div>
+      </main>
+    </TransitionPage>
   );
 }

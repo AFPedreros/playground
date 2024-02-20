@@ -4,12 +4,12 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 
 import { TipTapEditor } from "@/components/tiptap-editor";
+import { useFormMutation } from "@/hooks/useFormMutation";
 import { Button, ScrollShadow } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -40,7 +40,13 @@ export function DescriptionForm({
     initialData.description || "",
   );
 
-  const { mutateAsync, isLoading } = api.topic.update.useMutation();
+  const mutation = api.topic.update.useMutation();
+  const { isLoading, handleMutation } = useFormMutation({
+    mutation,
+    onSuccessMessage: "Se ha actualizado la descripción del tema correctamente",
+    onErrorMessage: "Error al actualizar la descripción del tema",
+    toggleEditing,
+  });
 
   const {
     formState: { isValid, isSubmitting, errors },
@@ -78,23 +84,11 @@ export function DescriptionForm({
     ],
   });
 
-  const toggleEdit = () => {
-    toggleEditing();
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const description = values.description;
     editor?.commands.setContent(description);
     setOptimisticData(description);
-    try {
-      await mutateAsync({ description, id: topicId });
-    } catch (error) {
-      console.log("Error", error);
-      toast.error("Error al actualizar el nombre");
-    } finally {
-      toast.success("Nombre actualizado correctamente");
-      toggleEdit();
-    }
+    handleMutation({ description, id: topicId });
   };
 
   return (
@@ -122,7 +116,7 @@ export function DescriptionForm({
           size="sm"
           isIconOnly
           isLoading={isLoading}
-          onClick={toggleEdit}
+          onClick={() => toggleEditing()}
         />
       </div>
       {!isEditing && !optimisticData && (

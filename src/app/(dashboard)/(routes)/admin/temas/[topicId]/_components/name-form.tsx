@@ -4,11 +4,11 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 
+import { useFormMutation } from "@/hooks/useFormMutation";
 import { Button, Input } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { useState } from "react";
@@ -29,7 +29,13 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
   const [isEditing, toggleEditing] = useToggle(false);
   const [optimisticName, setOptimisticName] = useState(initialData.name);
 
-  const { mutateAsync, isLoading } = api.topic.update.useMutation();
+  const mutation = api.topic.update.useMutation();
+  const { isLoading, handleMutation } = useFormMutation({
+    mutation,
+    onSuccessMessage: "Se ha actualizado el nombre del tema correctamente",
+    onErrorMessage: "Error al actualizar el nombre del tema",
+    toggleEditing,
+  });
 
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
@@ -44,22 +50,10 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
     mode: "onChange",
   });
 
-  const toggleEdit = () => {
-    toggleEditing();
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const name = values.name;
     setOptimisticName(name);
-    try {
-      await mutateAsync({ name, id: topicId });
-    } catch (error) {
-      console.log("Error", error);
-      toast.error("Error al actualizar el nombre");
-    } finally {
-      toast.success("Nombre actualizado correctamente");
-      toggleEdit();
-    }
+    handleMutation({ name, id: topicId });
   };
 
   return (
@@ -87,7 +81,7 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           size="sm"
           isIconOnly
           isLoading={isLoading}
-          onClick={toggleEdit}
+          onClick={() => toggleEditing()}
         />
       </div>
       {!isEditing && <p className="mt-2 text-default-500">{optimisticName}</p>}

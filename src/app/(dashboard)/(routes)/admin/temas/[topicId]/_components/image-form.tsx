@@ -4,13 +4,13 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 import NextImage from "next/image";
 
 import { FileUploader } from "@/components/file-uploader";
+import { useFormMutation } from "@/hooks/useFormMutation";
 import { useUploadThing } from "@/lib/uploadthing";
 import type { FileWithPreview } from "@/types";
 import { Button, Image } from "@nextui-org/react";
@@ -36,24 +36,21 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
     initialData.imageUrl || "",
   );
 
+  const mutation = api.topic.update.useMutation();
+  const { isLoading, handleMutation } = useFormMutation({
+    mutation,
+    onSuccessMessage: "Se ha actualizado la imagen del tema correctamente",
+    onErrorMessage: "Error al actualizar la imagen del tema",
+    toggleEditing,
+  });
+
   const { startUpload, isUploading } = useUploadThing("image", {
     onClientUploadComplete: async (data) => {
       if (data[0]) {
-        try {
-          await mutateAsync({ imageUrl: data[0].url, id: topicId });
-        } catch (error) {
-          console.log("Error", error);
-          toast.error("Error al actualizar la imagen");
-        } finally {
-          toast.success("Imagen actualizada correctamente");
-
-          toggleEdit();
-        }
+        handleMutation({ imageUrl: data[0].url, id: topicId });
       }
     },
   });
-
-  const { mutateAsync, isLoading } = api.topic.update.useMutation();
 
   const {
     formState: { isValid, isSubmitting },
@@ -66,10 +63,6 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
     },
     mode: "onChange",
   });
-
-  const toggleEdit = () => {
-    toggleEditing();
-  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const imageUrl = values.imageUrl;
@@ -108,7 +101,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           size="sm"
           isIconOnly
           isLoading={isLoading || isUploading}
-          onClick={toggleEdit}
+          onClick={() => toggleEditing()}
         />
       </div>
       {!isEditing && !optimisticData && (

@@ -2,18 +2,19 @@
 
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icon } from "@iconify/react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Form } from "@/components/form";
 
+import { FormContainer } from "@/components/dashboard/form-container";
+import { FormTitle } from "@/components/dashboard/form-title";
 import { TipTapEditor } from "@/components/tiptap-editor";
 import { useFormMutation } from "@/hooks/useFormMutation";
+import { outputEditor } from "@/lib/editor-config";
 import { Button, ScrollShadow } from "@nextui-org/react";
 import { Topic } from "@prisma/client";
 import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 
@@ -61,27 +62,8 @@ export function DescriptionForm({
   });
 
   const editor = useEditor({
-    editable: false,
     content: optimisticData,
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          HTMLAttributes: {
-            class: "text-4xl font-bold",
-          },
-        },
-        paragraph: {
-          HTMLAttributes: {
-            class: "text-default-500 inline",
-          },
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: "list-disc list-inside",
-          },
-        },
-      }),
-    ],
+    ...outputEditor,
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -92,33 +74,12 @@ export function DescriptionForm({
   };
 
   return (
-    <div className="relative col-span-2 h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
-      <div className="flex flex-row items-center justify-between gap-x-4">
-        <h4 className="text-lg font-medium text-foreground">
-          Descripción{" "}
-          <span className="text-sm font-light text-danger">(requerido)</span>
-        </h4>
-        <Button
-          className="absolute right-5 top-5"
-          startContent={
-            isEditing
-              ? !isLoading && (
-                  <Icon
-                    icon="solar:close-circle-linear"
-                    height={18}
-                    width={18}
-                  />
-                )
-              : !isLoading && (
-                  <Icon icon="solar:pen-2-linear" height={18} width={18} />
-                )
-          }
-          size="sm"
-          isIconOnly
-          isLoading={isLoading}
-          onClick={() => toggleEditing()}
-        />
-      </div>
+    <FormContainer
+      isEditing={isEditing}
+      isLoading={isLoading}
+      toggleEditing={toggleEditing}
+    >
+      <FormTitle title={"Descripción"} isRequired />
       {!isEditing && !optimisticData && (
         <p className="mt-2 text-default-500">
           Por favor escribe una descripción
@@ -168,6 +129,6 @@ export function DescriptionForm({
           </Button>
         </Form>
       )}
-    </div>
+    </FormContainer>
   );
 }

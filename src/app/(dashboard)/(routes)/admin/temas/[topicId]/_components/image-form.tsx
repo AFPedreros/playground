@@ -12,7 +12,6 @@ import { useFormWithToggle } from "@/hooks/useFormWithToggle";
 import { useUploadThing } from "@/lib/uploadthing";
 import type { FileWithPreview } from "@/types";
 import { Button, Image } from "@nextui-org/react";
-import NextImage from "next/image";
 import { useState } from "react";
 import { TopicImageUrl, imageFormSchema } from "./schemas";
 
@@ -74,17 +73,12 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
         <p className="mt-2 text-default-500">Por favor sube una image</p>
       )}
       {!isEditing && !!optimisticData && (
-        <div className="relative mt-2 aspect-video">
+        <div className="relative mt-2">
           <Image
-            className="w-full rounded-large object-cover"
-            removeWrapper
-            // as={NextImage}
-            // fill
+            className="aspect-video w-full rounded-large object-cover"
             src={optimisticData.imageUrl || ""}
-            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            // priority={true}
             alt="Imagen del tema"
-            // loading="eager"
+            loading="eager"
             isBlurred
           />
         </div>

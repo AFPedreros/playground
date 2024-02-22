@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react";
-import { Button } from "@nextui-org/react";
+import { Button, cn } from "@nextui-org/react";
 
 type FormContainerProps = {
   children: React.ReactNode;
+  className?: string;
   isEditing: boolean;
   isLoading: boolean;
   toggleEditing: () => void;
@@ -10,12 +11,19 @@ type FormContainerProps = {
 
 export function FormContainer({
   children,
+  className,
   isEditing,
   isLoading,
   toggleEditing,
 }: FormContainerProps) {
   return (
-    <div className="relative col-span-2 h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
+    <div
+      className={cn(
+        { "col-span-2": !className },
+        className,
+        "relative h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]",
+      )}
+    >
       <Button
         className="absolute right-5 top-5"
         startContent={

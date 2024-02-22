@@ -1,24 +1,16 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Icon } from "@iconify/react";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 
 import { Form } from "@/components/form";
 
+import { FormContainer } from "@/components/dashboard/form-container";
+import { FormTitle } from "@/components/dashboard/form-title";
 import { useFormMutation } from "@/hooks/useFormMutation";
+import { useFormWithToggle } from "@/hooks/useFormWithToggle";
 import { Button, Input } from "@nextui-org/react";
-import { Topic } from "@prisma/client";
-import { useState } from "react";
-import { useToggle } from "usehooks-ts";
-
-const formSchema = z.object({
-  name: z.string().min(3, "Se necesita un título con más de 3 caracteres"),
-});
-
-type TopicName = Pick<Topic, "name">;
+import { TopicName, nameFormSchema } from "./schemas";
 
 type NameFormProps = {
   initialData: TopicName;
@@ -26,8 +18,23 @@ type NameFormProps = {
 };
 
 export function NameForm({ initialData, topicId }: NameFormProps) {
-  const [isEditing, toggleEditing] = useToggle(false);
-  const [optimisticName, setOptimisticName] = useState(initialData.name);
+  const {
+    optimisticData,
+    isEditing,
+    formMethods,
+    setOptimisticData,
+    toggleEditing,
+  } = useFormWithToggle({
+    initialData,
+    schema: nameFormSchema,
+  });
+
+  const {
+    formState: { isValid, isSubmitting, dirtyFields, errors },
+    control,
+    setValue,
+    handleSubmit,
+  } = formMethods;
 
   const mutation = api.topic.update.useMutation();
   const { isLoading, handleMutation } = useFormMutation({
@@ -37,54 +44,22 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
     toggleEditing,
   });
 
-  const {
-    formState: { isValid, isSubmitting, dirtyFields, errors },
-    control,
-    setValue,
-    handleSubmit,
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: optimisticName,
-    },
-    mode: "onChange",
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: TopicName) => {
     const name = values.name;
-    setOptimisticName(name);
+    setOptimisticData({ name });
     handleMutation({ name, id: topicId });
   };
 
   return (
-    <div className="relative h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
-      <div className="flex flex-row items-center justify-between gap-x-4">
-        <h4 className="text-lg font-medium text-foreground">
-          Nombre{" "}
-          <span className="text-sm font-light text-danger">(requerido)</span>
-        </h4>
-        <Button
-          className="absolute right-5 top-5"
-          startContent={
-            isEditing
-              ? !isLoading && (
-                  <Icon
-                    icon="solar:close-circle-linear"
-                    height={18}
-                    width={18}
-                  />
-                )
-              : !isLoading && (
-                  <Icon icon="solar:pen-2-linear" height={18} width={18} />
-                )
-          }
-          size="sm"
-          isIconOnly
-          isLoading={isLoading}
-          onClick={() => toggleEditing()}
-        />
-      </div>
-      {!isEditing && <p className="mt-2 text-default-500">{optimisticName}</p>}
+    <FormContainer
+      isEditing={isEditing}
+      isLoading={isLoading}
+      toggleEditing={toggleEditing}
+    >
+      <FormTitle title={"Nombre"} isRequired />
+      {!isEditing && (
+        <p className="mt-2 text-default-500">{optimisticData.name}</p>
+      )}
       {!!isEditing && (
         <Form
           className="mt-6 flex w-full flex-col items-start gap-4"
@@ -120,6 +95,6 @@ export function NameForm({ initialData, topicId }: NameFormProps) {
           </Button>
         </Form>
       )}
-    </div>
+    </FormContainer>
   );
 }

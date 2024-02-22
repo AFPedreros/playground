@@ -1,28 +1,20 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Icon } from "@iconify/react";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 
-import { Form } from "@/components/form";
-import NextImage from "next/image";
-
+import { FormContainer } from "@/components/dashboard/form-container";
+import { FormTitle } from "@/components/dashboard/form-title";
 import { FileUploader } from "@/components/file-uploader";
+import { Form } from "@/components/form";
 import { useFormMutation } from "@/hooks/useFormMutation";
+import { useFormWithToggle } from "@/hooks/useFormWithToggle";
 import { useUploadThing } from "@/lib/uploadthing";
 import type { FileWithPreview } from "@/types";
 import { Button, Image } from "@nextui-org/react";
-import { Topic } from "@prisma/client";
+import NextImage from "next/image";
 import { useState } from "react";
-import { useToggle } from "usehooks-ts";
-
-const formSchema = z.object({
-  imageUrl: z.string().min(1, "Se necesita una imagen"),
-});
-
-type TopicImageUrl = Pick<Topic, "imageUrl">;
+import { TopicImageUrl, imageFormSchema } from "./schemas";
 
 type ImageFormProps = {
   initialData: TopicImageUrl;
@@ -30,11 +22,23 @@ type ImageFormProps = {
 };
 
 export function ImageForm({ initialData, topicId }: ImageFormProps) {
-  const [isEditing, toggleEditing] = useToggle(false);
   const [files, setFiles] = useState<FileWithPreview[]>([]);
-  const [optimisticData, setOptimisticData] = useState(
-    initialData.imageUrl || "",
-  );
+  const {
+    optimisticData,
+    isEditing,
+    formMethods,
+    setOptimisticData,
+    toggleEditing,
+  } = useFormWithToggle({
+    initialData,
+    schema: imageFormSchema,
+  });
+
+  const {
+    formState: { isValid, isSubmitting },
+    control,
+    handleSubmit,
+  } = formMethods;
 
   const mutation = api.topic.update.useMutation();
   const { isLoading, handleMutation } = useFormMutation({
@@ -52,58 +56,20 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
     },
   });
 
-  const {
-    formState: { isValid, isSubmitting },
-    control,
-    handleSubmit,
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      imageUrl: "",
-    },
-    mode: "onChange",
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: TopicImageUrl) => {
     const imageUrl = values.imageUrl;
-
     const filesToUpload = files.map((fileWithPreview) => fileWithPreview.file);
-
     startUpload(filesToUpload);
-
-    setOptimisticData(imageUrl);
+    setOptimisticData({ imageUrl });
   };
 
   return (
-    <div className="relative h-fit w-full rounded-large bg-default/15 p-6 shadow-small backdrop-blur-[3px]">
-      <div className="flex flex-row items-center justify-between gap-x-4">
-        <h4 className="text-lg font-medium text-foreground">
-          Imagen{" "}
-          <span className="text-sm font-light text-danger">(requerido)</span>
-        </h4>
-        <Button
-          className="absolute right-5 top-5"
-          startContent={
-            isEditing
-              ? !isLoading &&
-                !isUploading && (
-                  <Icon
-                    icon="solar:close-circle-linear"
-                    height={18}
-                    width={18}
-                  />
-                )
-              : !isLoading &&
-                !isUploading && (
-                  <Icon icon="solar:pen-2-linear" height={18} width={18} />
-                )
-          }
-          size="sm"
-          isIconOnly
-          isLoading={isLoading || isUploading}
-          onClick={() => toggleEditing()}
-        />
-      </div>
+    <FormContainer
+      isEditing={isEditing}
+      isLoading={isLoading || isUploading}
+      toggleEditing={toggleEditing}
+    >
+      <FormTitle title={"Imagen"} isRequired />
       {!isEditing && !optimisticData && (
         <p className="mt-2 text-default-500">Por favor sube una image</p>
       )}
@@ -114,7 +80,7 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
             removeWrapper
             as={NextImage}
             fill
-            src={optimisticData}
+            src={optimisticData.imageUrl || ""}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={true}
             alt="Imagen del tema"
@@ -157,6 +123,6 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           </Button>
         </Form>
       )}
-    </div>
+    </FormContainer>
   );
 }

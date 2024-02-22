@@ -78,13 +78,13 @@ export function ImageForm({ initialData, topicId }: ImageFormProps) {
           <Image
             className="w-full rounded-large object-cover"
             removeWrapper
-            as={NextImage}
-            fill
+            // as={NextImage}
+            // fill
             src={optimisticData.imageUrl || ""}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
+            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            // priority={true}
             alt="Imagen del tema"
-            loading="eager"
+            // loading="eager"
             isBlurred
           />
         </div>

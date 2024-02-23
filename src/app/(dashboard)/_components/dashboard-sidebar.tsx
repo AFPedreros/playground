@@ -22,7 +22,7 @@ export function DashboardSidebar() {
         className={cn(
           { "w-16 px-2": isCompact },
           { "w-72 px-6": !isCompact },
-          "relative bg-gradient-to-b from-transparent from-30% to-primary/25 flex h-full flex-col !border-r-small border-divider py-6 duration-250 ease-in-out transition-width",
+          "relative bg-gradient-to-b animate-fade-right from-primary/5 to-primary/50 to-80% flex h-full flex-col !border-r-small border-divider py-6 duration-250 ease-in-out transition-width",
         )}
       >
         <ScrollShadow className="h-full max-h-full">

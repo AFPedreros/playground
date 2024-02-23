@@ -22,6 +22,7 @@ export default withUt({
   },
   darkMode: "class",
   plugins: [
+    require("tailwindcss-animated"),
     nextui({
       themes: {
         light: {

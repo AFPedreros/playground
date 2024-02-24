@@ -14,8 +14,8 @@ export default function DashboardLayout({
   const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
   return (
     <div className="">
-      <Navbar />
-      <div className="flex h-dvh w-full pt-16">
+      {/* <Navbar /> */}
+      <div className="flex h-dvh w-full">
         <div className="fixed">
           <DashboardSidebar />
         </div>

@@ -5,16 +5,23 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { useCollapsedStore } from "@/store/collapsedStore";
 import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 import { Sidebar } from "./sidebar";
 import { adminItems, userItems } from "./sidebar-items";
+import { ToggleButton } from "./toggle-button";
 
 export function DashboardSidebar() {
   const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
+  const setIsCollapsed = useCollapsedStore((state) => state.setIsCollapsed);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
 
   const isCompact = isCollapsed || isMobile;
   const items = pathname.startsWith("/admin") ? adminItems : userItems;
+
+  const onToggle = useCallback(() => {
+    setIsCollapsed();
+  }, [setIsCollapsed]);
 
   return (
     <div className="flex h-dvh w-full">
@@ -22,9 +29,14 @@ export function DashboardSidebar() {
         className={cn(
           { "w-16 px-2": isCompact },
           { "w-72 px-6": !isCompact },
-          "relative bg-gradient-to-b animate-fade-right from-primary/5 to-primary/50 to-80% flex h-full flex-col !border-r-small border-divider py-6 duration-250 ease-in-out transition-width",
+          "relative flex h-full animate-fade-right flex-col !border-r-small border-divider bg-gradient-to-b from-default-100 via-primary/50 to-primary py-6 duration-250 ease-in-out transition-width",
         )}
       >
+        <ToggleButton
+          isCollapsed={isCollapsed}
+          isMobile={isMobile}
+          onToggle={onToggle}
+        />
         <ScrollShadow className="h-full max-h-full">
           <Sidebar
             defaultSelectedKey="home"

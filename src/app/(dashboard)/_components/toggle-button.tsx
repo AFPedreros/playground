@@ -32,7 +32,7 @@ export function ToggleButton({
         (!!isCollapsed && (
           <Tooltip content="Abrir sidebar" placement="right">
             <Button
-              className="mx-auto"
+              className="mx-auto mb-8"
               isIconOnly
               size="sm"
               variant="light"

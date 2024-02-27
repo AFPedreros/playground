@@ -3,7 +3,9 @@
 import { ScrollShadow, Spacer, cn } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
 
+import { Logo } from "@/components/logo";
 import { useCollapsedStore } from "@/store/collapsedStore";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 import { Sidebar } from "./sidebar";
@@ -37,6 +39,20 @@ export function DashboardSidebar() {
           isMobile={isMobile}
           onToggle={onToggle}
         />
+
+        <Link href="/" className="flex items-center px-3">
+          <Logo />
+          <span
+            className={cn("ml-2 text-small font-medium", {
+              hidden: isCompact,
+            })}
+          >
+            ROADMAP
+          </span>
+        </Link>
+
+        <Spacer y={8} />
+
         <ScrollShadow className="h-full max-h-full">
           <Sidebar
             defaultSelectedKey="home"

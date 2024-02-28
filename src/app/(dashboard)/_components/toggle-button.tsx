@@ -24,7 +24,11 @@ export function ToggleButton({
             color="default"
             onPress={onToggle}
           >
-            <Icon icon="solar:close-circle-linear" height={24} width={24} />
+            <Icon
+              icon="solar:double-alt-arrow-left-linear"
+              height={24}
+              width={24}
+            />
           </Button>
         </Tooltip>
       )}

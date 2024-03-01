@@ -8,9 +8,11 @@ import { useCollapsedStore } from "@/store/collapsedStore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
+import { SearchInput } from "./search-input";
 import { Sidebar } from "./sidebar";
 import { adminItems, userItems } from "./sidebar-items";
 import { ToggleButton } from "./toggle-button";
+import { UserInfo } from "./user-info";
 
 export function DashboardSidebar() {
   const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
@@ -50,6 +52,18 @@ export function DashboardSidebar() {
             ROADMAP
           </span>
         </Link>
+
+        <Spacer y={8} />
+
+        <div className="flex flex-col gap-4">
+          <UserInfo />
+          <SearchInput
+            size="sm"
+            variant="faded"
+            radius="full"
+            className="bg-transparent"
+          />
+        </div>
 
         <Spacer y={8} />
 

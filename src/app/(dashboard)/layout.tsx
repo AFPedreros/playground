@@ -2,7 +2,6 @@
 
 import { useCollapsedStore } from "@/store/collapsedStore";
 import { cn } from "@nextui-org/react";
-import { DashboardHeader } from "./_components/dashboard-header";
 import { DashboardSidebar } from "./_components/dashboard-sidebar";
 import { Navbar } from "./_components/navbar";
 
@@ -30,7 +29,6 @@ export default function DashboardLayout({
             <div className="absolute bottom-0 left-0 right-0 top-0 -z-20 opacity-50 bg-grid-small-black/[0.2] dark:bg-grid-small-white/[0.2]" />
             <div className="absolute bottom-0 left-0 right-0 top-0 -z-10 bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
 
-            <DashboardHeader />
             {children}
           </div>
         </div>

@@ -25,7 +25,7 @@ export function SearchInput({
       type="text"
       placeholder="Busca un tema o un tutorial"
       startContent={
-        <Icon icon="solar:magnifer-linear" height={24} width={24} />
+        <Icon icon="solar:magnifer-linear" height={18} width={18} />
       }
     />
   );

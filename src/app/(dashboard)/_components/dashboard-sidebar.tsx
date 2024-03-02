@@ -42,8 +42,11 @@ export function DashboardSidebar() {
           onToggle={onToggle}
         />
 
-        <Link href="/" className="flex items-center px-3">
-          <Logo />
+        <Link
+          href="/"
+          className={cn({ "justify-center": isCompact }, "flex items-center")}
+        >
+          <Logo size={32} />
           <span
             className={cn("ml-2 text-small font-medium", {
               hidden: isCompact,
@@ -55,8 +58,10 @@ export function DashboardSidebar() {
 
         <Spacer y={8} />
 
-        <div className="flex flex-col gap-4">
-          <UserInfo />
+        <div
+          className={cn({ "items-center": isCompact }, "flex flex-col gap-4")}
+        >
+          <UserInfo isCompact={isCompact} />
           <SearchInput
             size="sm"
             variant="faded"

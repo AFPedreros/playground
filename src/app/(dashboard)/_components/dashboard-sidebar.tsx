@@ -62,12 +62,7 @@ export function DashboardSidebar() {
           className={cn({ "items-center": isCompact }, "flex flex-col gap-4")}
         >
           <UserInfo isCompact={isCompact} />
-          <SearchInput
-            size="sm"
-            variant="faded"
-            radius="full"
-            className="bg-transparent"
-          />
+          <SearchInput size="sm" variant="flat" radius="full" />
         </div>
 
         <Spacer y={8} />

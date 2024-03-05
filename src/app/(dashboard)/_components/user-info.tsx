@@ -10,6 +10,9 @@ export function UserInfo({ isCompact }: UserInfoProps) {
   const { data: session } = useSession();
 
   const user = session?.user;
+
+  if (!session) return null;
+
   return (
     <div
       className={cn(
@@ -23,16 +26,19 @@ export function UserInfo({ isCompact }: UserInfoProps) {
         size="md"
         src={user?.image || ""}
       />
-      {!isCompact && (
-        <div className="inline-flex flex-col items-start truncate">
-          <span className="truncate text-small text-inherit">
-            {user?.name || ""}
-          </span>
-          <span className="text-tiny text-foreground-400">
-            {user?.email || ""}
-          </span>
-        </div>
-      )}
+
+      <div
+        className={cn("inline-flex flex-col items-start truncate", {
+          hidden: isCompact,
+        })}
+      >
+        <span className="truncate text-small text-inherit">
+          {user?.name || ""}
+        </span>
+        <span className="text-tiny text-foreground-400">
+          {user?.email || ""}
+        </span>
+      </div>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 import { SearchInput } from "./search-input";
 import { Sidebar } from "./sidebar";
+import { SidebarFooter } from "./sidebar-footer";
 import { adminItems, userItems } from "./sidebar-items";
 import { ToggleButton } from "./toggle-button";
 import { UserInfo } from "./user-info";
@@ -33,7 +34,7 @@ export function DashboardSidebar() {
         className={cn(
           { "w-16 px-2": isCompact },
           { "w-72 px-6": !isCompact },
-          "relative flex h-full animate-fade-right flex-col !border-r-small border-divider bg-gradient-to-b from-default-100 via-primary/50 to-primary py-6 duration-250 ease-in-out transition-width",
+          "relative flex h-full animate-fade-right flex-col !border-r-small border-divider bg-gradient-to-b from-default-100 via-primary/50 to-default-50 py-6 duration-250 ease-in-out transition-width",
         )}
       >
         <ToggleButton
@@ -62,7 +63,12 @@ export function DashboardSidebar() {
           className={cn({ "items-center": isCompact }, "flex flex-col gap-4")}
         >
           <UserInfo isCompact={isCompact} />
-          <SearchInput size="sm" variant="flat" radius="full" />
+          <SearchInput
+            size="sm"
+            variant="flat"
+            radius="full"
+            isCompact={isCompact}
+          />
         </div>
 
         <Spacer y={8} />
@@ -75,6 +81,8 @@ export function DashboardSidebar() {
           />
         </ScrollShadow>
         <Spacer y={2} />
+
+        <SidebarFooter isCompact={isCompact} />
       </div>
     </div>
   );

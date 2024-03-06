@@ -1,8 +1,10 @@
 "use client";
 
+import { LoginLinkButton } from "@/components/login-link-button";
 import { Icon } from "@iconify/react";
 import { Button, Tooltip, cn } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 type SidebarFooterProps = {
   isCompact: boolean;
@@ -13,9 +15,53 @@ export function SidebarFooter({ isCompact }: SidebarFooterProps) {
 
   const user = session?.user;
 
+  if (!user)
+    return (
+      <div
+        className={cn("flex w-full flex-col", {
+          "items-center": isCompact,
+        })}
+      >
+        {!isCompact && <LoginLinkButton />}
+        {isCompact && (
+          <Tooltip
+            content="Inicia sesión"
+            isDisabled={!isCompact}
+            placement="right"
+          >
+            <Link href="/inicio-sesion">
+              <Button
+                fullWidth
+                className={cn(
+                  "justify-start group truncate data-[hover=true]:bg-primary/20 text-default-500 data-[hover=true]:text-foreground",
+                  {
+                    "justify-center": isCompact,
+                  },
+                )}
+                isIconOnly
+                color="primary"
+                variant="flat"
+                radius="full"
+              >
+                <Icon
+                  className="text-primary"
+                  icon="solar:login-3-linear"
+                  width={20}
+                />
+              </Button>
+            </Link>
+          </Tooltip>
+        )}
+      </div>
+    );
+
   return (
-    <div className="flex w-full flex-col gap-0.5 outline-none">
-      <Tooltip content="Perfil" isDisabled={!isCompact} placement="right">
+    <div
+      className={cn("flex w-full flex-col gap-0.5 outline-none", {
+        "items-center gap-4": isCompact,
+      })}
+    >
+      <Tooltip content="Mi perfil" isDisabled={!isCompact} placement="right">
         <Button
           fullWidth
           className={cn(
@@ -34,13 +80,14 @@ export function SidebarFooter({ isCompact }: SidebarFooterProps) {
               />
             )
           }
-          variant="light"
+          color={isCompact ? "primary" : "default"}
+          variant={isCompact ? "flat" : "light"}
           radius="full"
         >
           {isCompact ? (
             <Icon
-              className="text-default-500"
-              icon="solar:info-circle-line-duotone"
+              className="text-primary"
+              icon="solar:user-circle-linear"
               width={24}
             />
           ) : (
@@ -65,19 +112,20 @@ export function SidebarFooter({ isCompact }: SidebarFooterProps) {
             isCompact ? null : (
               <Icon
                 className="flex-none rotate-180 text-default-500 group-hover:text-danger"
-                icon="solar:minus-circle-line-duotone"
+                icon="solar:logout-3-linear"
                 width={24}
               />
             )
           }
-          variant="light"
+          color={isCompact ? "danger" : "default"}
+          variant={isCompact ? "flat" : "light"}
           radius="full"
           onClick={() => signOut()}
         >
           {isCompact ? (
             <Icon
-              className="rotate-180 text-default-500"
-              icon="solar:minus-circle-line-duotone"
+              className="text-danger"
+              icon="solar:logout-3-linear"
               width={24}
             />
           ) : (

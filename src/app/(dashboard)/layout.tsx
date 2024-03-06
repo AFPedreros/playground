@@ -3,7 +3,6 @@
 import { useCollapsedStore } from "@/store/collapsedStore";
 import { cn } from "@nextui-org/react";
 import { DashboardSidebar } from "./_components/dashboard-sidebar";
-import { Navbar } from "./_components/navbar";
 
 export default function DashboardLayout({
   children,

@@ -1,10 +1,9 @@
 "use client";
 
-import { LoginLinkButton } from "@/components/login-link-button";
 import { Icon } from "@iconify/react";
 import { Button, Tooltip, cn } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import SidebarLoginSection from "./sidebar-login-section";
 
 type SidebarFooterProps = {
   isCompact: boolean;
@@ -15,45 +14,7 @@ export function SidebarFooter({ isCompact }: SidebarFooterProps) {
 
   const user = session?.user;
 
-  if (!user)
-    return (
-      <div
-        className={cn("flex w-full flex-col", {
-          "items-center": isCompact,
-        })}
-      >
-        {!isCompact && <LoginLinkButton />}
-        {isCompact && (
-          <Tooltip
-            content="Inicia sesión"
-            isDisabled={!isCompact}
-            placement="right"
-          >
-            <Link href="/inicio-sesion">
-              <Button
-                fullWidth
-                className={cn(
-                  "justify-start group truncate data-[hover=true]:bg-primary/20 text-default-500 data-[hover=true]:text-foreground",
-                  {
-                    "justify-center": isCompact,
-                  },
-                )}
-                isIconOnly
-                color="primary"
-                variant="flat"
-                radius="full"
-              >
-                <Icon
-                  className="text-primary"
-                  icon="solar:login-3-linear"
-                  width={20}
-                />
-              </Button>
-            </Link>
-          </Tooltip>
-        )}
-      </div>
-    );
+  if (!user) return <SidebarLoginSection isCompact={isCompact} />;
 
   return (
     <div

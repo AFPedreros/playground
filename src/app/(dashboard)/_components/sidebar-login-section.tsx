@@ -6,9 +6,7 @@ type SidebarLoginSectionProps = {
   isCompact: boolean;
 };
 
-export default function SidebarLoginSection({
-  isCompact,
-}: SidebarLoginSectionProps) {
+export function SidebarLoginSection({ isCompact }: SidebarLoginSectionProps) {
   return (
     <div
       className={cn("flex w-full flex-col", {

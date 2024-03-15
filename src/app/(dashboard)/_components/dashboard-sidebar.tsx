@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 import { SearchInput } from "./search-input";
-import { Sidebar } from "./sidebar";
+import { SidebarNav } from "./sidebar";
 import { SidebarFooter } from "./sidebar-footer";
 import { adminItems, userItems } from "./sidebar-items";
 import { ToggleButton } from "./toggle-button";
@@ -74,7 +74,7 @@ export function DashboardSidebar() {
         <Spacer y={8} />
 
         <ScrollShadow className="h-full max-h-full">
-          <Sidebar
+          <SidebarNav
             defaultSelectedKey="home"
             isCompact={isCompact}
             items={items}

@@ -34,7 +34,7 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
   onSelect?: (key: string) => void;
 };
 
-const Sidebar = forwardRef<HTMLElement, SidebarProps>(
+const SidebarNav = forwardRef<HTMLElement, SidebarProps>(
   (
     {
       items,
@@ -167,6 +167,6 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
   },
 );
 
-Sidebar.displayName = "Sidebar";
+SidebarNav.displayName = "SidebarNav";
 
-export { Sidebar };
+export { SidebarNav };

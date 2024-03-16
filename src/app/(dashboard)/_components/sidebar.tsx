@@ -1,172 +1,113 @@
 "use client";
 
-import { Icon } from "@iconify/react";
-import type { ListboxProps, ListboxSectionProps } from "@nextui-org/react";
-import {
-  Listbox,
-  ListboxItem,
-  ListboxSection,
-  Tooltip,
-  cn,
-} from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
-import { forwardRef, useCallback } from "react";
+import { ScrollShadow, Spacer, cn } from "@nextui-org/react";
+import { useMediaQuery } from "usehooks-ts";
 
-export type SidebarItem = {
-  key: string;
-  title: string;
-  icon?: string;
-  href?: string;
-  startContent?: React.ReactNode;
-  endContent?: React.ReactNode;
-  items?: SidebarItem[];
-  className?: string;
-};
+import { Logo } from "@/components/logo";
+import { useCollapsedStore } from "@/store/collapsedStore";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { SearchInput } from "./search-input";
+import { SidebarFooter } from "./sidebar-footer";
+import { adminItems, userItems } from "./sidebar-items";
+import { SidebarItem, SidebarNav } from "./sidebar-nav";
+import { ToggleButton } from "./toggle-button";
+import { UserInfo } from "./user-info";
 
-export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
-  items: SidebarItem[];
-  isCompact?: boolean;
-  hideEndContent?: boolean;
-  iconClassName?: string;
-  sectionClasses?: ListboxSectionProps["classNames"];
-  classNames?: ListboxProps["classNames"];
-  defaultSelectedKey: string;
-  onSelect?: (key: string) => void;
-};
+export function Sidebar() {
+  const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
+  const setIsCollapsed = useCollapsedStore((state) => state.setIsCollapsed);
+  const [items, setItems] = useState<SidebarItem[] | []>([]);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const pathname = usePathname();
 
-const SidebarNav = forwardRef<HTMLElement, SidebarProps>(
-  (
-    {
-      items,
-      isCompact,
-      hideEndContent,
-      sectionClasses: sectionClassesProp = {},
-      itemClasses: itemClassesProp = {},
-      iconClassName,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
-    const router = useRouter();
-    const pathname = usePathname();
+  const isCompact = isCollapsed || isMobile;
+  const { data: session } = useSession();
 
-    const sectionClasses = {
-      ...sectionClassesProp,
-      base: cn(sectionClassesProp?.base, {
-        "p-0 max-w-[44px]": isCompact,
-      }),
-      group: cn(sectionClassesProp?.group, {
-        "flex flex-col gap-1": isCompact,
-      }),
-      heading: cn(sectionClassesProp?.heading, {
-        hidden: isCompact,
-      }),
-    };
+  // const items = pathname.startsWith("/admin") ? adminItems : userItems;
 
-    const itemClasses = {
-      ...itemClassesProp,
-      base: cn(itemClassesProp?.base, {
-        "w-11 h-11 gap-0 p-0": isCompact,
-      }),
-    };
+  const onToggle = useCallback(() => {
+    setIsCollapsed();
+  }, [setIsCollapsed]);
 
-    const renderItem = useCallback(
-      (item: SidebarItem) => {
-        return (
-          <ListboxItem
-            textValue={item.title}
-            key={item.key}
-            startContent={
-              isCompact ? null : item.icon ? (
-                <Icon
-                  className={cn(
-                    "text-default-500 group-data-[selected=true]:text-primary",
-                    iconClassName,
-                  )}
-                  icon={item.icon}
-                  width={24}
-                />
-              ) : (
-                item.startContent ?? null
-              )
-            }
-            endContent={
-              isCompact || hideEndContent ? null : item.endContent ?? null
-            }
-            onPress={() => router.push(item.href || "")}
-          >
-            {!isCompact && item.title}
-            {isCompact && (
-              <Tooltip content={item.title} placement="right">
-                <div className="flex w-full items-center justify-center">
-                  {item.icon ? (
-                    <Icon
-                      className={cn(
-                        "text-default-500 group-data-[selected=true]:text-primary",
-                        iconClassName,
-                      )}
-                      icon={item.icon}
-                      width={24}
-                    />
-                  ) : (
-                    item.startContent ?? null
-                  )}
-                </div>
-              </Tooltip>
-            )}
-          </ListboxItem>
-        );
-      },
-      [isCompact, hideEndContent, iconClassName, router.push],
-    );
+  useEffect(() => {
+    setItems(pathname.startsWith("/admin") ? adminItems : userItems);
 
-    return (
-      <Listbox
-        key={isCompact ? "compact" : "default"}
-        ref={ref}
-        as="nav"
-        aria-label="Sidebar"
-        hideSelectedIcon
-        className={cn("list-none p-0", className)}
-        color="primary"
-        itemClasses={{
-          ...itemClasses,
-          base: cn(
-            "px-3 rounded-full h-[40px] data-[selected=true]:bg-primary/20",
-            itemClasses?.base,
-          ),
-          title: cn(
-            "text-small font-medium text-default-500 group-data-[selected=true]:text-foreground",
-            itemClasses?.title,
-          ),
-        }}
-        items={items}
-        selectedKeys={[pathname]}
-        defaultSelectedKeys={[pathname]}
-        selectionMode="single"
-        variant="flat"
-        {...props}
-      >
-        {(item) =>
-          item.items && item.items?.length > 0 ? (
-            <ListboxSection
-              key={item.key}
-              classNames={sectionClasses}
-              showDivider={isCompact}
-              title={item.title}
-            >
-              {items.map((item) => renderItem(item))}
-            </ListboxSection>
-          ) : (
-            renderItem(item)
-          )
+    if (session?.user.role === "ADMIN" && !pathname.startsWith("/admin")) {
+      const adminItem = {
+        key: "/admin",
+        href: "/admin/tutoriales",
+        icon: "solar:shield-user-linear",
+        title: "Panel Admin",
+      };
+
+      setItems((prevItems) => {
+        if (prevItems?.length) {
+          return [...prevItems, adminItem];
         }
-      </Listbox>
-    );
-  },
-);
+        return [adminItem];
+      });
+    }
+  }, [session, pathname]);
 
-SidebarNav.displayName = "SidebarNav";
+  return (
+    <div className="flex h-dvh w-full">
+      <div
+        className={cn(
+          { "w-16 px-2": isCompact },
+          { "w-72 px-6": !isCompact },
+          "relative flex h-full animate-fade-right flex-col !border-r-small border-divider bg-gradient-to-b from-default-100 via-primary/50 to-default-50 py-6 duration-250 ease-in-out transition-width",
+        )}
+      >
+        <ToggleButton
+          isCollapsed={isCollapsed}
+          isMobile={isMobile}
+          onToggle={onToggle}
+        />
 
-export { SidebarNav };
+        <Link
+          href="/"
+          className={cn({ "justify-center": isCompact }, "flex items-center")}
+        >
+          <Logo size={32} />
+          <span
+            className={cn("ml-2 text-small font-medium", {
+              hidden: isCompact,
+            })}
+          >
+            ROADMAP
+          </span>
+        </Link>
+
+        <Spacer y={8} />
+
+        <div
+          className={cn({ "items-center": isCompact }, "flex flex-col gap-4")}
+        >
+          <UserInfo isCompact={isCompact} />
+          <SearchInput
+            size="sm"
+            variant="flat"
+            radius="full"
+            isCompact={isCompact}
+          />
+        </div>
+
+        <Spacer y={8} />
+
+        <ScrollShadow className="h-full max-h-full">
+          <SidebarNav
+            defaultSelectedKey="home"
+            isCompact={isCompact}
+            items={items}
+          />
+        </ScrollShadow>
+        <Spacer y={2} />
+
+        <SidebarFooter isCompact={isCompact} />
+      </div>
+    </div>
+  );
+}

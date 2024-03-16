@@ -2,7 +2,7 @@
 
 import { useCollapsedStore } from "@/store/collapsedStore";
 import { cn } from "@nextui-org/react";
-import { DashboardSidebar } from "./_components/dashboard-sidebar";
+import { Sidebar } from "./_components/sidebar";
 
 export default function DashboardLayout({
   children,
@@ -12,10 +12,9 @@ export default function DashboardLayout({
   const isCollapsed = useCollapsedStore((state) => state.isCollapsed);
   return (
     <div className="">
-      {/* <Navbar /> */}
       <div className="flex h-dvh w-full">
         <div className="fixed">
-          <DashboardSidebar />
+          <Sidebar />
         </div>
         <div
           className={cn(

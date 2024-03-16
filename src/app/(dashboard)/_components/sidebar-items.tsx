@@ -1,5 +1,5 @@
 import { Chip } from "@nextui-org/react";
-import type { SidebarItem } from "./sidebar";
+import type { SidebarItem } from "./sidebar-nav";
 
 export const userItems: SidebarItem[] = [
   {
@@ -55,5 +55,17 @@ export const adminItems: SidebarItem[] = [
     href: "/admin/rutas",
     icon: "solar:routing-linear",
     title: "Rutas",
+  },
+  {
+    key: "/admin/usuarios",
+    href: "/admin/usuarios",
+    icon: "solar:users-group-two-rounded-linear",
+    title: "Usuarios",
+  },
+  {
+    key: "/inicio",
+    href: "/inicio",
+    icon: "solar:alt-arrow-left-linear",
+    title: "Salir panel admin",
   },
 ];

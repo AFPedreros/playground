@@ -1,8 +1,8 @@
 # React Roadmap
 
-![cover-image](https://lms-project-flax.vercel.app/cover.png)
-
 This is an open source learning management system build everything in Next.js 14. It is bootstrapped with `create-t3-app`
+
+![cover-image](https://lms-project-flax.vercel.app/cover.png)
 
 ## Tech Stack
 

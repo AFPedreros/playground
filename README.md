@@ -6,11 +6,11 @@ This is an open source learning management system build everything in Next.js 14
 
 ## Tech Stack
 
-- **Framework:**: Next.js
-- **Styling:**: Tailwind CSS
-- **User Management:**: NextAuth
+- **Framework**: Next.js
+- **Styling**: Tailwind CSS
+- **User Management**: NextAuth
 - **ORM**: Prisma
-- **UI Components:**: NextUI
+- **UI Components**: NextUI
 - **File Uploads**: uploadthing
 
 ## Running Locally
